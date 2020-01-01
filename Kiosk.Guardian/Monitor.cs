@@ -10,32 +10,45 @@ namespace Kiosk.Guardian
     public class Monitor
     {
         Timer _timer;
-        private KioskMonitor _kioskMonitor;
-        public Monitor(KioskMonitor kioskMonitor)
+        bool _IsRunning;
+        private KioskProperties _kioskProperties;
+        public Monitor()
         {
-            _kioskMonitor = kioskMonitor;
+
         }
 
-        public void Run()
+        public bool IsRunning
         {
-            if(_kioskMonitor.Interval < 60)
+            get
+            {
+                return _IsRunning;
+            }
+        }
+        public void Run(KioskProperties properties)
+        {
+            _kioskProperties = properties;
+
+            if(_kioskProperties.Interval < 60)
             {
                 throw new Exception("O valor de intervalo deve ser maior que 60 segundos");
             }
 
-            _timer.Interval = _kioskMonitor.Interval;
+            _timer = new Timer();
+            _timer.Interval = _kioskProperties.Interval;
             _timer.Tick += _timer_Tick;
             _timer.Start();
+            _IsRunning = true;
         }
 
         private void _timer_Tick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Stop()
         {
             _timer.Stop();
+            _IsRunning = false;
         }
 
     }

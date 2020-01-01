@@ -15,7 +15,8 @@ namespace Kiosk.Guardian
     public partial class frmMain : Form
     {
         IniFile ini;
-        KioskMonitor kioskMonitor;
+        KioskProperties kioskProperties;
+        Monitor monitor = new Monitor();
         public frmMain()
         {
             InitializeComponent();
@@ -25,14 +26,33 @@ namespace Kiosk.Guardian
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-             kioskMonitor = new KioskMonitor();
-            propertyGrid1.SelectedObject = kioskMonitor;
+             kioskProperties = new KioskProperties();
+            propertyGrid1.SelectedObject = kioskProperties;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Monitor monitor = new Monitor(kioskMonitor);
-            monitor.Run();
+            try
+            {
+                if (!monitor.IsRunning)
+                {
+                    monitor.Run(kioskProperties);
+                    btnStart.Text = "Parar";
+                    propertyGrid1.Enabled = false;
+                }
+                else
+                {
+                    monitor.Stop();
+                    btnStart.Text = "Iniciar";
+                    propertyGrid1.Enabled = true;
+                }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+            }
+
         }
     }
 }

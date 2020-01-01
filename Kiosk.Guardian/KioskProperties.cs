@@ -9,12 +9,12 @@ using System.Windows.Forms;
 
 namespace Kiosk.Guardian
 {
-    public class KioskMonitor
+    public class KioskProperties
     {
         private string _proccessName;
         private string _pathToServer;
 
-        public KioskMonitor()
+        public KioskProperties()
         {
 
         }
@@ -78,5 +78,10 @@ namespace Kiosk.Guardian
         [DisplayName("Minutos")]
         [Description("Define os minutos do desligamento")]
         public int Minutes { get; set; }
+
+        public void Save()
+        {
+
+        }
     }
 }
