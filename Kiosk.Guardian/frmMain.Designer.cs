@@ -30,6 +30,10 @@
         {
             this.process1 = new System.Diagnostics.Process();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.btnSalvar = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnStart = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // process1
@@ -45,10 +49,34 @@
             // propertyGrid1
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 24);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(433, 343);
+            this.propertyGrid1.Size = new System.Drawing.Size(433, 319);
             this.propertyGrid1.TabIndex = 0;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnSalvar,
+            this.btnStart});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(433, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // btnSalvar
+            // 
+            this.btnSalvar.Name = "btnSalvar";
+            this.btnSalvar.Size = new System.Drawing.Size(50, 20);
+            this.btnSalvar.Text = "Salvar";
+            // 
+            // btnStart
+            // 
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(51, 20);
+            this.btnStart.Text = "Iniciar";
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // frmMain
             // 
@@ -56,11 +84,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(433, 343);
             this.Controls.Add(this.propertyGrid1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Kiosk Multiclubes";
             this.Load += new System.EventHandler(this.frmMain_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -68,6 +101,9 @@
 
         private System.Diagnostics.Process process1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem btnSalvar;
+        private System.Windows.Forms.ToolStripMenuItem btnStart;
     }
 }
 

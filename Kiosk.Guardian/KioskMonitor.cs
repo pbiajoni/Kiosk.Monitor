@@ -13,15 +13,10 @@ namespace Kiosk.Guardian
     {
         private string _proccessName;
         private string _pathToServer;
-        private ComboBox _hour;
 
         public KioskMonitor()
         {
-            _hour = new ComboBox();
-            _hour.Items.Add("01");
-            _hour.Items.Add(2);
-            _hour.Items.Add(3);
-            _hour.Items.Add(4);
+
         }
 
         [Category("MultiClubes")]
@@ -74,17 +69,14 @@ namespace Kiosk.Guardian
         [DisplayName("Desligar ATM")]
         [Description("Define que o ATM será desligado no horário agendado")]
         public bool TurnOff { get; set; }
-        public ComboBox Hour
-        {
-            get
-            {
-                return _hour;
-            }
 
-            set
-            {
-                _hour = value;
-            }
-        }
+        [Category("Ferramentas")]
+        [DisplayName("Hora")]
+        [Description("Define a hora de desligamento")]
+        public int Hour { get; set; }
+        [Category("Ferramentas")]
+        [DisplayName("Minutos")]
+        [Description("Define os minutos do desligamento")]
+        public int Minutes { get; set; }
     }
 }
