@@ -29,9 +29,9 @@ namespace Kiosk.Guardian
         {
             _kioskProperties = properties;
 
-            if (_kioskProperties.Interval < 60)
+            if (_kioskProperties.Interval < 30)
             {
-                throw new Exception("O valor de intervalo deve ser maior que 60 segundos");
+                throw new Exception("O valor de intervalo deve ser igual ou maior que 30 segundos");
             }
 
             _timer = new Timer();
@@ -39,6 +39,7 @@ namespace Kiosk.Guardian
             _timer.Tick += _timer_Tick;
             _timer.Start();
             _IsRunning = true;
+            _kioskProperties.Running = true;
         }
 
         bool KioskIsRunning()
@@ -86,6 +87,7 @@ namespace Kiosk.Guardian
         {
             _timer.Stop();
             _IsRunning = false;
+            _kioskProperties.Running = false;
         }
 
     }

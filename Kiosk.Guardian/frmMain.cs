@@ -40,7 +40,15 @@ namespace Kiosk.Guardian
             if (kioskProperties.Running)
             {
                 btnStart.PerformClick();
+                HideMe();
             }
+        }
+
+        void HideMe()
+        {
+            notifyIcon1.ShowBalloonTip(5000, "Atenção!", "Estou aqui fazendo o monitoramento", ToolTipIcon.Info);
+            this.ShowInTaskbar = false;
+            this.Hide();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -53,6 +61,7 @@ namespace Kiosk.Guardian
                     btnStart.Text = "Parar";
                     propertyGrid1.Enabled = false;
                     btnSalvar.Enabled = false;
+                    kioskProperties.Save();
                 }
                 else
                 {
@@ -60,6 +69,8 @@ namespace Kiosk.Guardian
                     btnStart.Text = "Iniciar";
                     propertyGrid1.Enabled = true;
                     btnSalvar.Enabled = true;
+                    kioskProperties.Save();
+                    Show();
                 }
             }
             catch (Exception er)

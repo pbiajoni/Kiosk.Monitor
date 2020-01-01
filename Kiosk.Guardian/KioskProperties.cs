@@ -67,7 +67,7 @@ namespace Kiosk.Guardian
                 _pathToServer = value;
             }
         }
-
+        [DefaultValueAttribute("30")]
         [Category("Verificação")]
         [DisplayName("Intervalo")]
         [Description("Intervalo em que será verificado se o Kiosk está em operação")]
@@ -123,6 +123,10 @@ namespace Kiosk.Guardian
                 Minute = Convert.ToInt32(ini.IniReadValue("Tools", "Minute"));
 
                 Running = Convert.ToBoolean(ini.IniReadValue("Guardian", "Running"));
+            }
+            else
+            {
+                Save();
             }
         }
     }
