@@ -23,6 +23,9 @@ namespace Kiosk.Guardian
                 , "Kiosk", "settings.ini"));
         }
 
+        [Browsable(false)]
+        public bool Running { get; set; }
+
         [Category("MultiClubes")]
         [DisplayName("Nome do Processo")]
         [Description("Nome do processo do Multiclubes Kiosk")]
@@ -103,6 +106,8 @@ namespace Kiosk.Guardian
             ini.IniWriteValue("Tools", "TurnOff", TurnOff.ToString());
             ini.IniWriteValue("Tools", "Hour", Hour.ToString());
             ini.IniWriteValue("Tools", "Minute", Minute.ToString());
+
+            ini.IniWriteValue("Guardian", "Running", Running.ToString());
         }
 
         public void Get()
@@ -116,6 +121,8 @@ namespace Kiosk.Guardian
                 TurnOff = Convert.ToBoolean(ini.IniReadValue("Tools", "TurnOff"));
                 Hour = Convert.ToInt32(ini.IniReadValue("Tools", "Hour"));
                 Minute = Convert.ToInt32(ini.IniReadValue("Tools", "Minute"));
+
+                Running = Convert.ToBoolean(ini.IniReadValue("Guardian", "Running"));
             }
         }
     }

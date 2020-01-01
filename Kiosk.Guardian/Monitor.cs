@@ -49,7 +49,15 @@ namespace Kiosk.Guardian
             {
                 if (process.ProcessName.ToLower() == _kioskProperties.ProcessName.ToLower())
                 {
-                    return process.Responding;
+                    if (process.Responding)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        process.Kill();
+                        return false;
+                    }
                 }
             }
 

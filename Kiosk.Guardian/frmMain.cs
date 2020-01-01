@@ -19,7 +19,16 @@ namespace Kiosk.Guardian
         public frmMain()
         {
             InitializeComponent();
-            
+            this.FormClosing += FrmMain_FormClosing;
+        }
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+            }
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -27,6 +36,11 @@ namespace Kiosk.Guardian
              kioskProperties = new KioskProperties();
             propertyGrid1.SelectedObject = kioskProperties;
             kioskProperties.Get();
+
+            if (kioskProperties.Running)
+            {
+                btnStart.PerformClick();
+            }
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -66,6 +80,16 @@ namespace Kiosk.Guardian
             {
                 MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            btnStart.PerformClick();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
