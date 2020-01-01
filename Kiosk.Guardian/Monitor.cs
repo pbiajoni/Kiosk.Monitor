@@ -40,6 +40,8 @@ namespace Kiosk.Guardian
             _timer.Start();
             _IsRunning = true;
             _kioskProperties.Running = true;
+
+            TestKiosk();
         }
 
         bool KioskIsRunning()
@@ -66,20 +68,23 @@ namespace Kiosk.Guardian
         }
 
        
+        void TestKiosk()
+        {
+            if (!KioskIsRunning())
+            {
+                Process.Start(_kioskProperties.KioskPath);
+            }
+        }
 
         private void _timer_Tick(object sender, EventArgs e)
         {
             try
             {
-                if (!KioskIsRunning())
-                {
-                    Process.Start(_kioskProperties.KioskPath);
-                }
+                TestKiosk();
             }
             catch (Exception)
             {
 
-                throw;
             }
         }
 

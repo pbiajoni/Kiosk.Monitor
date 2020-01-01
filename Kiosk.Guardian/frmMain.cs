@@ -102,5 +102,11 @@ namespace Kiosk.Guardian
         {
             Application.Exit();
         }
+
+        private void btnShow_Click(object sender, EventArgs e)
+        {
+            this.ShowInTaskbar = true;
+            this.Show();
+        }
     }
 }

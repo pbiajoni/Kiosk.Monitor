@@ -40,6 +40,7 @@
             this.btnClose = new System.Windows.Forms.ToolStripMenuItem();
             this.btnStop = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnShow = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -97,11 +98,12 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnShow,
             this.btnStop,
             this.toolStripSeparator1,
             this.btnClose});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 98);
             // 
             // btnClose
             // 
@@ -121,6 +123,13 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // btnShow
+            // 
+            this.btnShow.Name = "btnShow";
+            this.btnShow.Size = new System.Drawing.Size(180, 22);
+            this.btnShow.Text = "Mostrar";
+            this.btnShow.Click += new System.EventHandler(this.btnShow_Click);
             // 
             // frmMain
             // 
@@ -157,6 +166,7 @@
         private System.Windows.Forms.ToolStripMenuItem btnStop;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem btnClose;
+        private System.Windows.Forms.ToolStripMenuItem btnShow;
     }
 }
 
