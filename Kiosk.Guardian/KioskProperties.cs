@@ -1,7 +1,9 @@
-﻿using System;
+﻿using iniSettings;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +13,14 @@ namespace Kiosk.Guardian
 {
     public class KioskProperties
     {
+        IniFile ini;
         private string _proccessName;
         private string _pathToServer;
 
         public KioskProperties()
         {
-
+            ini = new IniFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
+                , "Kiosk", "settings.ini"));
         }
 
         [Category("MultiClubes")]
@@ -43,13 +47,13 @@ namespace Kiosk.Guardian
         [Category("MultiClubes")]
         [DisplayName("Caminho do Kiosk")]
         [Description("Caminho do aplicativo Kiosk no servidor")]
-        public string Path
+        public string KioskPath
         {
             get
             {
                 if (string.IsNullOrEmpty(_pathToServer))
                 {
-                    return @"\\servidor\multiclubessistemas$\Kiosk\MultiClubes.Kiosk.UI.application";
+                    return @"\\srv-multiclubes\multiclubessistemas$\Kiosk\MultiClubes.Kiosk.UI.application";
                 }
 
                 return _pathToServer;
@@ -61,7 +65,7 @@ namespace Kiosk.Guardian
             }
         }
 
-        [Category("Verificãção")]
+        [Category("Verificação")]
         [DisplayName("Intervalo")]
         [Description("Intervalo em que será verificado se o Kiosk está em operação")]
         public int Interval { get; set; }
@@ -77,11 +81,42 @@ namespace Kiosk.Guardian
         [Category("Ferramentas")]
         [DisplayName("Minutos")]
         [Description("Define os minutos do desligamento")]
-        public int Minutes { get; set; }
+        public int Minute { get; set; }
 
+        void ValidateDirectory()
+        {
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Kiosk");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
         public void Save()
         {
+            ValidateDirectory();
 
+            ini.IniWriteValue("MultiClubes", "KioskPath", KioskPath);
+            ini.IniWriteValue("MultiClubes", "ProccessName", ProcessName);
+
+            ini.IniWriteValue("Validation", "Interval", Interval.ToString());
+
+            ini.IniWriteValue("Tools", "TurnOff", TurnOff.ToString());
+            ini.IniWriteValue("Tools", "Hour", Hour.ToString());
+            ini.IniWriteValue("Tools", "Minute", Minute.ToString());
+        }
+
+        public void Get()
+        {
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
+                , "Kiosk", "settings.ini"))){
+                KioskPath = ini.IniReadValue("MultiClubes", "KioskPath");
+                ProcessName = ini.IniReadValue("MultiClubes", "ProccessName");
+
+                Interval = Convert.ToInt32(ini.IniReadValue("Validation", "Interval"));
+                TurnOff = Convert.ToBoolean(ini.IniReadValue("Tools", "TurnOff"));
+                Hour = Convert.ToInt32(ini.IniReadValue("Tools", "Hour"));
+                Minute = Convert.ToInt32(ini.IniReadValue("Tools", "Minute"));
+            }
         }
     }
 }

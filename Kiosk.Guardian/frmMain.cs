@@ -14,20 +14,19 @@ namespace Kiosk.Guardian
 {
     public partial class frmMain : Form
     {
-        IniFile ini;
         KioskProperties kioskProperties;
         Monitor monitor = new Monitor();
         public frmMain()
         {
             InitializeComponent();
-            ini = new IniFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
-                , "Kiosk", "settings.ini"));
+            
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
              kioskProperties = new KioskProperties();
             propertyGrid1.SelectedObject = kioskProperties;
+            kioskProperties.Get();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -39,20 +38,34 @@ namespace Kiosk.Guardian
                     monitor.Run(kioskProperties);
                     btnStart.Text = "Parar";
                     propertyGrid1.Enabled = false;
+                    btnSalvar.Enabled = false;
                 }
                 else
                 {
                     monitor.Stop();
                     btnStart.Text = "Iniciar";
                     propertyGrid1.Enabled = true;
+                    btnSalvar.Enabled = true;
                 }
             }
             catch (Exception er)
             {
-                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);                
             }
 
+        }
+
+        private void btnSalvar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                kioskProperties.Save();
+                MessageBox.Show("Salvo com sucesso!", "Ok", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
