@@ -20,11 +20,18 @@ namespace Kiosk.Guardian
         {
             InitializeComponent();
             this.FormClosing += FrmMain_FormClosing;
+            monitor.OnTick += Monitor_OnTick;
+        }
+
+        private void Monitor_OnTick(int second, int countdown)
+        {
+            lblCountDown.Text = "Verificando em: " + countdown + " segundo(s)";
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(e.CloseReason == CloseReason.UserClosing)
+            lblCountDown.Text = "";
+            if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
                 this.Hide();
@@ -33,7 +40,7 @@ namespace Kiosk.Guardian
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-             kioskProperties = new KioskProperties();
+            kioskProperties = new KioskProperties();
             propertyGrid1.SelectedObject = kioskProperties;
             kioskProperties.Get();
 
@@ -75,7 +82,7 @@ namespace Kiosk.Guardian
             }
             catch (Exception er)
             {
-                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);                
+                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
