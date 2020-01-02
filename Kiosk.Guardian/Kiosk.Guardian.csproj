@@ -94,8 +94,10 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="KioskEnums.cs" />
     <Compile Include="KioskProperties.cs" />
     <Compile Include="Monitor.cs" />
+    <Compile Include="Postman.cs" />
     <Compile Include="ProcessExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

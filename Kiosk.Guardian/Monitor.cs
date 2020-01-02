@@ -10,6 +10,8 @@ namespace Kiosk.Guardian
 {
     public class Monitor
     {
+        Postman postman = null;
+        bool _firstRun = true;
         bool _isTurningOff = false;
         Timer _timer;
         int _seconds;
@@ -33,11 +35,6 @@ namespace Kiosk.Guardian
         {
             _kioskProperties = properties;
 
-            if (_kioskProperties.Interval < 30)
-            {
-                throw new Exception("O valor de intervalo deve ser igual ou maior que 30 segundos");
-            }
-
             _timer = new Timer();
             _timer.Interval = 1000;
             _timer.Tick += _timer_Tick;
@@ -46,10 +43,37 @@ namespace Kiosk.Guardian
             _kioskProperties.Running = true;
             _seconds = 0;
 
+            if (_kioskProperties.SendAlerts)
+            {
+                postman = new Postman();
+                postman.Server = _kioskProperties.Smtp;
+                postman.Port = _kioskProperties.Port;
+                postman.Username = _kioskProperties.Username;
+                postman.Password = _kioskProperties.Password;
+                postman.FromMail = _kioskProperties.FromMail;
+                postman.ToMail = _kioskProperties.ToMail;
+            }
+
             TestKiosk();
+            _firstRun = false;
         }
 
-        bool KioskIsRunning()
+        void SendAlert(string message)
+        {
+            try
+            {
+                if (!_firstRun)
+                {
+                    postman.Send(message);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        KioskStatus KioskIsRunning()
         {
             Process[] processlist = Process.GetProcesses();
 
@@ -59,24 +83,33 @@ namespace Kiosk.Guardian
                 {
                     if (process.Responding)
                     {
-                        return true;
+                        return KioskStatus.Alive;
                     }
                     else
                     {
                         process.Kill();
-                        return false;
+                        return KioskStatus.NotResponding;
                     }
                 }
             }
 
-            return false;
+            return KioskStatus.Off;
         }
 
 
         void TestKiosk()
         {
-            if (!KioskIsRunning())
+            KioskStatus kioskStatus = KioskIsRunning();
+
+            if(kioskStatus == KioskStatus.NotResponding)
             {
+                Process.Start(_kioskProperties.KioskPath);
+                SendAlert("O APLICATIVO ESTAVA TRAVADO E FOI REINICIADO");
+            }
+
+            if(kioskStatus == KioskStatus.Off)
+            {
+                SendAlert("O APLICATIVO FECHOU E FOI ABERTO NOVAMENTE");
                 Process.Start(_kioskProperties.KioskPath);
             }
         }
@@ -123,6 +156,7 @@ namespace Kiosk.Guardian
             _timer.Stop();
             _IsRunning = false;
             _kioskProperties.Running = false;
+            _firstRun = true;
         }
 
     }

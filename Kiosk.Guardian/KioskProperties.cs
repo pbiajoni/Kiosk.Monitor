@@ -67,7 +67,7 @@ namespace Kiosk.Guardian
                 _pathToServer = value;
             }
         }
-        [DefaultValueAttribute("30")]
+        [DefaultValueAttribute(30)]
         [Category("Verificação")]
         [DisplayName("Intervalo")]
         [Description("Intervalo em que será verificado se o Kiosk está em operação")]
@@ -86,6 +86,43 @@ namespace Kiosk.Guardian
         [Description("Define os minutos do desligamento")]
         public int Minute { get; set; }
 
+
+        [Category("Log")]
+        [DisplayName("Alertar por email")]
+        [Description("Define se o guardian enviará alertas por email")]
+        public bool SendAlerts { get; set; }
+
+        [Category("Log")]
+        [DisplayName("Servidor SMTP")]
+        [Description("Endereço ip ou nome do host smtp")]
+        public string Smtp { get; set; }
+
+        [Category("Log")]
+        [DefaultValueAttribute(587)]
+        [DisplayName("Porta")]
+        [Description("Porta do serviço smtp")]
+        public int Port { get; set; }
+
+        [Category("Log")]
+        [DisplayName("Usuário")]
+        [Description("Nome do usuário SMTP")]
+        public string Username { get; set; }
+
+        [Category("Log")]
+        [DisplayName("Senha")]
+        [Description("Senha SMTP")]
+        public string Password { get; set; }
+
+        [Category("Log")]
+        [DisplayName("De")]
+        [Description("Endereço de email que enviará os logs")]
+        public string FromMail { get; set; }
+
+        [Category("Log")]
+        [DisplayName("Para")]
+        [Description("Endereço de email que receberá os logs")]
+        public string ToMail { get; set; }
+
         void ValidateDirectory()
         {
             string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Kiosk");
@@ -98,6 +135,41 @@ namespace Kiosk.Guardian
         {
             ValidateDirectory();
 
+            if (Interval < 30)
+            {
+                throw new Exception("O valor de intervalo deve ser igual ou maior que 30 segundos");
+            }
+
+            if (SendAlerts && string.IsNullOrEmpty(Smtp))
+            {
+                throw new Exception("O servidor smtp deve estar especificado");
+            }
+
+            if (SendAlerts && string.IsNullOrEmpty(Port.ToString()))
+            {
+                throw new Exception("A porta deve estar especificada");
+            }
+
+            if (SendAlerts && string.IsNullOrEmpty(Username))
+            {
+                throw new Exception("O usuário smtp deve estar especificado");
+            }
+
+            if (SendAlerts && string.IsNullOrEmpty(Password))
+            {
+                throw new Exception("A senha smtp deve estar especificada");
+            }
+
+            if (SendAlerts && string.IsNullOrEmpty(FromMail))
+            {
+                throw new Exception("O email de origem deve estar especificado");
+            }
+
+            if (SendAlerts && string.IsNullOrEmpty(ToMail))
+            {
+                throw new Exception("O email de destino de email deve estar especificado");
+            }
+
             ini.IniWriteValue("MultiClubes", "KioskPath", KioskPath);
             ini.IniWriteValue("MultiClubes", "ProccessName", ProcessName);
 
@@ -108,12 +180,21 @@ namespace Kiosk.Guardian
             ini.IniWriteValue("Tools", "Minute", Minute.ToString());
 
             ini.IniWriteValue("Guardian", "Running", Running.ToString());
+
+            ini.IniWriteValue("Log", "SendAlerts", SendAlerts.ToString());
+            ini.IniWriteValue("Log", "Smtp", Smtp);
+            ini.IniWriteValue("Log", "Port", Port.ToString());
+            ini.IniWriteValue("Log", "Username", Username);
+            ini.IniWriteValue("Log", "Password", Password);
+            ini.IniWriteValue("Log", "FromMail", FromMail);
+            ini.IniWriteValue("Log", "ToMail", ToMail);
         }
 
         public void Get()
         {
             if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
-                , "Kiosk", "settings.ini"))){
+                , "Kiosk", "settings.ini")))
+            {
                 KioskPath = ini.IniReadValue("MultiClubes", "KioskPath");
                 ProcessName = ini.IniReadValue("MultiClubes", "ProccessName");
 
@@ -123,6 +204,13 @@ namespace Kiosk.Guardian
                 Minute = Convert.ToInt32(ini.IniReadValue("Tools", "Minute"));
 
                 Running = Convert.ToBoolean(ini.IniReadValue("Guardian", "Running"));
+                try { SendAlerts = Convert.ToBoolean(ini.IniReadValue("Log", "SendAlerts")); } catch (Exception) { SendAlerts = false; }
+                Smtp = ini.IniReadValue("Log", "Smtp");
+                try { Port = Convert.ToInt32(ini.IniReadValue("Log", "Port")); } catch (Exception) { Port = 587; }
+                Username = ini.IniReadValue("Log", "Username");
+                Password = ini.IniReadValue("Log", "Password");
+                FromMail = ini.IniReadValue("Log", "FromMail");
+                ToMail = ini.IniReadValue("Log", "ToMail");
             }
             else
             {

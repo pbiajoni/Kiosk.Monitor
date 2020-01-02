@@ -40,6 +40,7 @@ namespace Kiosk.Guardian
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            lblCountDown.Text = "Parado";
             kioskProperties = new KioskProperties();
             propertyGrid1.SelectedObject = kioskProperties;
             kioskProperties.Get();
@@ -64,11 +65,11 @@ namespace Kiosk.Guardian
             {
                 if (!monitor.IsRunning)
                 {
+                    kioskProperties.Save();
                     monitor.Run(kioskProperties);
                     btnStart.Text = "Parar";
                     propertyGrid1.Enabled = false;
                     btnSalvar.Enabled = false;
-                    kioskProperties.Save();
                 }
                 else
                 {
@@ -78,6 +79,7 @@ namespace Kiosk.Guardian
                     btnSalvar.Enabled = true;
                     kioskProperties.Save();
                     Show();
+                    lblCountDown.Text = "Parado";
                 }
             }
             catch (Exception er)
