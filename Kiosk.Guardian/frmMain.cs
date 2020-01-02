@@ -54,7 +54,7 @@ namespace Kiosk.Guardian
 
         void HideMe()
         {
-            notifyIcon1.ShowBalloonTip(5000, "Atenção!", "Estou aqui fazendo o monitoramento", ToolTipIcon.Info);
+            //notifyIcon1.ShowBalloonTip(5000, "Atenção!", "Estou aqui fazendo o monitoramento", ToolTipIcon.Info);
             this.ShowInTaskbar = false;
             this.Hide();
         }
