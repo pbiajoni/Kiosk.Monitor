@@ -83,6 +83,7 @@ namespace Kiosk.Guardian
         {
             if (_kioskProperties.CheckPrinter)
             {
+                PrinterUtils.GetPrinterProperties();
                 //_timer.Stop();
                 //_timerPrinter.Stop();
                 printQueue = LocalPrintServer.GetDefaultPrintQueue();

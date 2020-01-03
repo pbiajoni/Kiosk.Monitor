@@ -9,8 +9,10 @@ namespace Kiosk.Guardian
 {
     public class PrinterUtils
     {
-        public void GetPrinterProperties()
+
+        public static void GetPrinterProperties()
         {
+            //Printer
             int statComplete = 0;
             string[] printerStatus = { "Other", "Unknown", "Idle", "Printing", "WarmUp", "Stopped Printing", "Offline" };
             string[] printerState = {"Paused","Error","Pending Deletion","Paper Jam","Paper Out","Manual Feed","Paper Problem", "Offline","IO Active","Busy","Printing",
