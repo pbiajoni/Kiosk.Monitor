@@ -78,14 +78,18 @@ namespace Kiosk.Guardian
         public bool TurnOff { get; set; }
 
         [Category("Ferramentas")]
-        [DisplayName("Hora")]
+        [DisplayName("Hora para desligar")]
         [Description("Define a hora de desligamento")]
         public int Hour { get; set; }
         [Category("Ferramentas")]
-        [DisplayName("Minutos")]
+        [DisplayName("Minutos para desligar")]
         [Description("Define os minutos do desligamento")]
         public int Minute { get; set; }
 
+        [Category("Ferramentas")]
+        [DisplayName("Monitorar impressora")]
+        [Description("Define que o monitor irá verificar o status da impressora padrão")]
+        public bool CheckPrinter { get; set; }
 
         [Category("Log")]
         [DisplayName("Alertar por email")]

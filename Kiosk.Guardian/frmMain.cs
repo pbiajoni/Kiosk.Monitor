@@ -21,6 +21,12 @@ namespace Kiosk.Guardian
             InitializeComponent();
             this.FormClosing += FrmMain_FormClosing;
             monitor.OnTick += Monitor_OnTick;
+            monitor.OnPrintCheck += Monitor_OnPrintCheck;
+        }
+
+        private void Monitor_OnPrintCheck(string description, bool causesError)
+        {
+            lblPrinterStatus.Text = description;
         }
 
         private void Monitor_OnTick(int second, int countdown)

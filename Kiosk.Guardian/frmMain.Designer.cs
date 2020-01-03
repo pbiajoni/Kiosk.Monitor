@@ -43,6 +43,7 @@
             this.btnClose = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblCountDown = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblPrinterStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -137,7 +138,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblCountDown});
+            this.lblCountDown,
+            this.lblPrinterStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 427);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(631, 22);
@@ -149,6 +151,12 @@
             this.lblCountDown.Name = "lblCountDown";
             this.lblCountDown.Size = new System.Drawing.Size(79, 17);
             this.lblCountDown.Text = "[CountDown]";
+            // 
+            // lblPrinterStatus
+            // 
+            this.lblPrinterStatus.Name = "lblPrinterStatus";
+            this.lblPrinterStatus.Size = new System.Drawing.Size(82, 17);
+            this.lblPrinterStatus.Text = "[PrinterStatus]";
             // 
             // frmMain
             // 
@@ -191,6 +199,8 @@
         private System.Windows.Forms.ToolStripMenuItem btnShow;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lblCountDown;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel lblPrinterStatus;
     }
 }
 

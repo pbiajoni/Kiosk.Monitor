@@ -77,6 +77,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -98,6 +100,7 @@
     <Compile Include="KioskProperties.cs" />
     <Compile Include="Monitor.cs" />
     <Compile Include="Postman.cs" />
+    <Compile Include="PrinterUtils.cs" />
     <Compile Include="ProcessExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
