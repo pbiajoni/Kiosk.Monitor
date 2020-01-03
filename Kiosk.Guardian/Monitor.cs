@@ -62,7 +62,7 @@ namespace Kiosk.Guardian
         {
             try
             {
-                if (!_firstRun)
+                if (!_firstRun && postman != null)
                 {
                     postman.Send(message);
                 }
@@ -157,6 +157,7 @@ namespace Kiosk.Guardian
             _IsRunning = false;
             _kioskProperties.Running = false;
             _firstRun = true;
+            postman = null;
         }
 
     }

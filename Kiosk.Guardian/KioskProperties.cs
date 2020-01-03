@@ -203,7 +203,7 @@ namespace Kiosk.Guardian
                 Hour = Convert.ToInt32(ini.IniReadValue("Tools", "Hour"));
                 Minute = Convert.ToInt32(ini.IniReadValue("Tools", "Minute"));
 
-                Running = Convert.ToBoolean(ini.IniReadValue("Guardian", "Running"));
+                try { Convert.ToBoolean(ini.IniReadValue("Guardian", "Running")); } catch (Exception) { Running = false; };
                 try { SendAlerts = Convert.ToBoolean(ini.IniReadValue("Log", "SendAlerts")); } catch (Exception) { SendAlerts = false; }
                 Smtp = ini.IniReadValue("Log", "Smtp");
                 try { Port = Convert.ToInt32(ini.IniReadValue("Log", "Port")); } catch (Exception) { Port = 587; }
