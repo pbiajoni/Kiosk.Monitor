@@ -63,7 +63,7 @@ namespace Kiosk.Guardian
                 postman.ToMail = _kioskProperties.ToMail;
             }
 
-            TestKiosk();
+            //TestKiosk();
             _firstRun = false;
         }
 
@@ -83,6 +83,9 @@ namespace Kiosk.Guardian
         {
             if (_kioskProperties.CheckPrinter)
             {
+                //_timer.Stop();
+                //_timerPrinter.Stop();
+                printQueue = LocalPrintServer.GetDefaultPrintQueue();
                 string statusDescription = "AGUARDANDO INFORMAÇÕES DA IMPRESSORA";
                 bool causesError = false;
 

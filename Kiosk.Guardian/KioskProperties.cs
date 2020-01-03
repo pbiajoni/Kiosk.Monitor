@@ -26,6 +26,7 @@ namespace Kiosk.Guardian
         [Browsable(false)]
         public bool Running { get; set; }
 
+        [DefaultValueAttribute("MultiClubes.Kiosk.UI")]
         [Category("MultiClubes")]
         [DisplayName("Nome do Processo")]
         [Description("Nome do processo do Multiclubes Kiosk")]
