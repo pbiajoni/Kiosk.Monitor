@@ -21,13 +21,17 @@ namespace Kiosk.Guardian
             }
         }
 
-        public static void CloseMaintenance()
+        public static void CloseMaintenance(bool showMonitor = false)
         {
             if(_maintenance != null)
             {
                 _maintenance.Close();
                 _maintenance = null;
-                MainForm.WindowState = FormWindowState.Normal;
+
+                if (showMonitor)
+                {
+                    MainForm.WindowState = FormWindowState.Normal;
+                }
             }
         }
     }

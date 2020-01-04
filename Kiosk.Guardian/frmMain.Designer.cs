@@ -44,8 +44,14 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblCountDown = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPrinterStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.opçõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colocarEmManutençãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnStartAndMinimize = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnMaintenance = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnOpenQueuePrint = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnPrintTestPage = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -66,7 +72,7 @@
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 33);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(631, 416);
+            this.propertyGrid1.Size = new System.Drawing.Size(562, 416);
             this.propertyGrid1.TabIndex = 0;
             // 
             // menuStrip1
@@ -75,11 +81,10 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSalvar,
             this.btnStart,
-            this.btnStartAndMinimize,
-            this.btnMaintenance});
+            this.opçõesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(631, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(562, 33);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -147,7 +152,7 @@
             this.lblPrinterStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 427);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(631, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(562, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -163,25 +168,68 @@
             this.lblPrinterStatus.Size = new System.Drawing.Size(82, 17);
             this.lblPrinterStatus.Text = "[PrinterStatus]";
             // 
+            // opçõesToolStripMenuItem
+            // 
+            this.opçõesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.colocarEmManutençãoToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.btnStartAndMinimize,
+            this.toolStripSeparator3,
+            this.btnOpenQueuePrint,
+            this.toolStripSeparator4,
+            this.btnPrintTestPage});
+            this.opçõesToolStripMenuItem.Name = "opçõesToolStripMenuItem";
+            this.opçõesToolStripMenuItem.Size = new System.Drawing.Size(87, 29);
+            this.opçõesToolStripMenuItem.Text = "Opções";
+            // 
+            // colocarEmManutençãoToolStripMenuItem
+            // 
+            this.colocarEmManutençãoToolStripMenuItem.Name = "colocarEmManutençãoToolStripMenuItem";
+            this.colocarEmManutençãoToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
+            this.colocarEmManutençãoToolStripMenuItem.Text = "Colocar em manutenção";
+            this.colocarEmManutençãoToolStripMenuItem.Click += new System.EventHandler(this.btnMaintenance_Click);
+            // 
             // btnStartAndMinimize
             // 
             this.btnStartAndMinimize.Name = "btnStartAndMinimize";
-            this.btnStartAndMinimize.Size = new System.Drawing.Size(181, 29);
-            this.btnStartAndMinimize.Text = "Iniciar e Minimizar";
+            this.btnStartAndMinimize.Size = new System.Drawing.Size(290, 30);
+            this.btnStartAndMinimize.Text = "Iniciar e minimizar";
             this.btnStartAndMinimize.Click += new System.EventHandler(this.btnStartAndMinimize_Click);
             // 
-            // btnMaintenance
+            // toolStripSeparator2
             // 
-            this.btnMaintenance.Name = "btnMaintenance";
-            this.btnMaintenance.Size = new System.Drawing.Size(231, 29);
-            this.btnMaintenance.Text = "Colocar em Manutenção";
-            this.btnMaintenance.Click += new System.EventHandler(this.btnMaintenance_Click);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(287, 6);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(287, 6);
+            // 
+            // btnOpenQueuePrint
+            // 
+            this.btnOpenQueuePrint.Name = "btnOpenQueuePrint";
+            this.btnOpenQueuePrint.Size = new System.Drawing.Size(290, 30);
+            this.btnOpenQueuePrint.Text = "Abrir fila de impressão";
+            this.btnOpenQueuePrint.Click += new System.EventHandler(this.btnOpenQueuePrint_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(287, 6);
+            // 
+            // btnPrintTestPage
+            // 
+            this.btnPrintTestPage.Name = "btnPrintTestPage";
+            this.btnPrintTestPage.Size = new System.Drawing.Size(290, 30);
+            this.btnPrintTestPage.Text = "Imprimir página teste";
+            this.btnPrintTestPage.Click += new System.EventHandler(this.btnPrintTestPage_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(631, 449);
+            this.ClientSize = new System.Drawing.Size(562, 449);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.menuStrip1);
@@ -220,8 +268,14 @@
         private System.Windows.Forms.ToolStripStatusLabel lblCountDown;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel lblPrinterStatus;
+        private System.Windows.Forms.ToolStripMenuItem opçõesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem colocarEmManutençãoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem btnStartAndMinimize;
-        private System.Windows.Forms.ToolStripMenuItem btnMaintenance;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem btnOpenQueuePrint;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem btnPrintTestPage;
     }
 }
 

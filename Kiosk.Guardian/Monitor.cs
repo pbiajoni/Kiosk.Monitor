@@ -19,11 +19,14 @@ namespace Kiosk.Guardian
         Timer _timerPrinter;
         int _seconds;
         bool _IsRunning;
+        bool _IsPaused;
         private KioskProperties _kioskProperties;
         public delegate void OnTickEventHandler(int second, int countdown);
         public event OnTickEventHandler OnTick;
         public delegate void OnPrintCheckEventHandler(string description, bool causesError);
         public event OnPrintCheckEventHandler OnPrintCheck;
+        public delegate void OnStopEventHandler (int origin);
+        public event OnStopEventHandler OnStop;
         public Monitor()
         {
 
@@ -60,6 +63,7 @@ namespace Kiosk.Guardian
             }
 
             PrinterCheckStart();
+            TestKiosk();
         }
 
         private void _timerPrinter_Tick(object sender, EventArgs e)
@@ -196,16 +200,15 @@ namespace Kiosk.Guardian
                     {
                         SendAlert("ERRO IMPRESSORA", statusDescription);
                         printerAlertSended = true;
-                        _timer.Stop();
-                        _IsRunning = false;
+                        _IsPaused = true;
                         KillKiosk();
+                        //KillJobs(printQueue);
                         MaintenanceUtils.PutOnMaintenance();
                     }
 
-                    if (!causesError && !printerAlertSended && !_IsRunning)
+                    if (!causesError && !printerAlertSended && _IsPaused)
                     {
-                        _timer.Start();
-                        _IsRunning = true;
+                        _IsPaused = false;
                         TestKiosk();
                         MaintenanceUtils.CloseMaintenance();
                     }
@@ -214,6 +217,22 @@ namespace Kiosk.Guardian
                 }
             }
         }
+
+        void KillJobs(PrintQueue printQueue)
+        {
+            try
+            {
+                foreach (PrintSystemJobInfo job in printQueue.GetPrintJobInfoCollection())
+                {
+                    job.Cancel();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         void SendAlert(string subject, string message)
         {
             try
@@ -268,51 +287,59 @@ namespace Kiosk.Guardian
 
         void TestKiosk()
         {
-            KioskStatus kioskStatus = KioskIsRunning();
-
-            if (kioskStatus == KioskStatus.NotResponding)
+            if (_IsRunning)
             {
-                Process.Start(_kioskProperties.KioskPath);
-                SendAlert("EVENTO ", "O APLICATIVO ESTAVA TRAVADO E FOI REINICIADO");
-            }
+                KioskStatus kioskStatus = KioskIsRunning();
 
-            if (kioskStatus == KioskStatus.Off)
-            {
-                SendAlert("EVENTO", "O APLICATIVO FECHOU E FOI ABERTO NOVAMENTE");
-                Process.Start(_kioskProperties.KioskPath);
-            }
+                if (kioskStatus == KioskStatus.NotResponding)
+                {
+                    MaintenanceUtils.MainForm.WindowState = FormWindowState.Minimized;
+                    SendAlert("EVENTO ", "O APLICATIVO ESTAVA TRAVADO E FOI REINICIADO");
+                    Process.Start(_kioskProperties.KioskPath);
+                }
 
-            _firstRun = false;
+                if (kioskStatus == KioskStatus.Off)
+                {
+                    MaintenanceUtils.MainForm.WindowState = FormWindowState.Minimized;
+                    SendAlert("EVENTO", "O APLICATIVO FECHOU E FOI ABERTO NOVAMENTE");
+                    Process.Start(_kioskProperties.KioskPath);
+                }
+
+                _firstRun = false;
+            }
         }
 
         private void _timer_Tick(object sender, EventArgs e)
         {
             try
             {
-                int hour = DateTime.Now.Hour;
-                int minute = DateTime.Now.Minute;
-
-                if (_kioskProperties.TurnOff && !_isTurningOff && (_kioskProperties.Hour == hour) && (_kioskProperties.Minute == minute))
+                if (!_IsPaused)
                 {
-                    _isTurningOff = true;
-                    Process.Start("shutdown.exe", "-s -t 00");
-                }
+                    int hour = DateTime.Now.Hour;
+                    int minute = DateTime.Now.Minute;
 
-                if (OnTick != null)
-                {
-                    OnTick(_seconds, (_kioskProperties.Interval - _seconds));
-                }
-
-                if (!_isTurningOff)
-                {
-                    if (_seconds == _kioskProperties.Interval)
+                    if (_kioskProperties.TurnOff && !_isTurningOff && (_kioskProperties.Hour == hour) && (_kioskProperties.Minute == minute))
                     {
-                        _seconds = 0;
-                        TestKiosk();
+                        _isTurningOff = true;
+                        Process.Start("shutdown.exe", "-s -t 00");
                     }
-                    else
+
+                    if (OnTick != null)
                     {
-                        _seconds++;
+                        OnTick(_seconds, (_kioskProperties.Interval - _seconds));
+                    }
+
+                    if (!_isTurningOff)
+                    {
+                        if (_seconds == _kioskProperties.Interval)
+                        {
+                            _seconds = 0;
+                            TestKiosk();
+                        }
+                        else
+                        {
+                            _seconds++;
+                        }
                     }
                 }
             }

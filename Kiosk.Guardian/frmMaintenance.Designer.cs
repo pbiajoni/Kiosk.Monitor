@@ -94,11 +94,12 @@
             this.chkHide.Size = new System.Drawing.Size(31, 31);
             this.chkHide.TabIndex = 4;
             this.chkHide.UseVisualStyleBackColor = true;
+            this.chkHide.CheckedChanged += new System.EventHandler(this.chkHide_CheckedChanged);
             // 
             // txtPassword
             // 
             this.txtPassword.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPassword.Location = new System.Drawing.Point(6, 26);
+            this.txtPassword.Location = new System.Drawing.Point(6, 24);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(245, 31);
             this.txtPassword.TabIndex = 0;

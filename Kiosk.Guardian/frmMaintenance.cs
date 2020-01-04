@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -26,11 +27,21 @@ namespace Kiosk.Guardian
         private void frmMaintenance_Load(object sender, EventArgs e)
         {
             lblErrorMessages.Visible = false;
+            this.TopMost = true;
         }
 
         private void btnTurnOff_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if(txtPassword.Text == "")
+            {
+                lblErrorMessages.Text = "É NECESSÁRIO DIGITAR UMA SENHA";
+                lblErrorMessages.Visible = true;
+            }
+            else
+            {
+                //btnUnlock.PerformClick();
+                Process.Start("shutdown.exe", "-s -t 10");
+            }            
         }
 
         void SetNumber(string number)
@@ -97,15 +108,32 @@ namespace Kiosk.Guardian
 
         private void btnUnlock_Click(object sender, EventArgs e)
         {
-            if(txtPassword.Text == "0789")
+            if(Auth())
             {
-                this.Close();
+                MaintenanceUtils.CloseMaintenance(true);
             }
             else
             {
                 lblErrorMessages.Text = "SENHA INVÁLIDA";
                 lblErrorMessages.Visible = true;
             }
+        }
+
+        bool Auth()
+        {
+            if (txtPassword.Text == "159753")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void chkHide_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

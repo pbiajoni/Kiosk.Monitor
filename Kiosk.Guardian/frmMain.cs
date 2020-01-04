@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Kiosk.Guardian
 
         private void Monitor_OnPrintCheck(string description, bool causesError)
         {
-           lblPrinterStatus.Text = " - " + description;
+            lblPrinterStatus.Text = " - " + description;
 
             if (causesError)
             {
@@ -147,6 +148,44 @@ namespace Kiosk.Guardian
         private void btnMaintenance_Click(object sender, EventArgs e)
         {
             MaintenanceUtils.PutOnMaintenance();
+        }
+
+        private void btnOpenQueuePrint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (kioskProperties.Running)
+                {
+                    MessageBox.Show("Você deve primeiro parar o guadian", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    Process.Start("rundll32.exe", "printui.dll, PrintUIEntry /o /n \"" + kioskProperties.PrinterName + "\"");
+                }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnPrintTestPage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (kioskProperties.Running)
+                {
+                    MessageBox.Show("Você deve primeiro parar o guadian", "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    Process.Start("rundll32.exe", "printui.dll, PrintUIEntry /k /n \"" + kioskProperties.PrinterName + "\"");
+                }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
