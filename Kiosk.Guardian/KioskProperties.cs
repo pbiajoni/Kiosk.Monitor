@@ -92,6 +92,11 @@ namespace Kiosk.Guardian
         [Description("Define que o monitor irá verificar o status da impressora padrão")]
         public bool CheckPrinter { get; set; }
 
+        [Category("Ferramentas")]
+        [DisplayName("Nome da impressora")]
+        [Description("Nome da impressora de cupom configurada no kiosk")]
+        public string PrinterName { get; set; }
+
         [Category("Log")]
         [DisplayName("Alertar por email")]
         [Description("Define se o guardian enviará alertas por email")]
@@ -145,6 +150,11 @@ namespace Kiosk.Guardian
                 throw new Exception("O valor de intervalo deve ser igual ou maior que 30 segundos");
             }
 
+            if (CheckPrinter && string.IsNullOrEmpty(PrinterName))
+            {
+                throw new Exception("O nome da impressora de cupom deve ser especificado");
+            }
+
             if (SendAlerts && string.IsNullOrEmpty(Smtp))
             {
                 throw new Exception("O servidor smtp deve estar especificado");
@@ -183,6 +193,8 @@ namespace Kiosk.Guardian
             ini.IniWriteValue("Tools", "TurnOff", TurnOff.ToString());
             ini.IniWriteValue("Tools", "Hour", Hour.ToString());
             ini.IniWriteValue("Tools", "Minute", Minute.ToString());
+            ini.IniWriteValue("Tools", "CheckPrinter", CheckPrinter.ToString());
+            ini.IniWriteValue("Tools", "PrinterName", PrinterName);
 
             ini.IniWriteValue("Guardian", "Running", Running.ToString());
 
@@ -207,8 +219,10 @@ namespace Kiosk.Guardian
                 TurnOff = Convert.ToBoolean(ini.IniReadValue("Tools", "TurnOff"));
                 Hour = Convert.ToInt32(ini.IniReadValue("Tools", "Hour"));
                 Minute = Convert.ToInt32(ini.IniReadValue("Tools", "Minute"));
+                PrinterName = ini.IniReadValue("Tools", "PrinterName");
+                try { CheckPrinter = Convert.ToBoolean(ini.IniReadValue("Tools", "CheckPrinter")); } catch (Exception) { CheckPrinter = false; };
 
-                try { Convert.ToBoolean(ini.IniReadValue("Guardian", "Running")); } catch (Exception) { Running = false; };
+                try { Running = Convert.ToBoolean(ini.IniReadValue("Guardian", "Running")); } catch (Exception) { Running = false; };
                 try { SendAlerts = Convert.ToBoolean(ini.IniReadValue("Log", "SendAlerts")); } catch (Exception) { SendAlerts = false; }
                 Smtp = ini.IniReadValue("Log", "Smtp");
                 try { Port = Convert.ToInt32(ini.IniReadValue("Log", "Port")); } catch (Exception) { Port = 587; }

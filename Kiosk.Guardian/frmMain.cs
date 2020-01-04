@@ -26,12 +26,12 @@ namespace Kiosk.Guardian
 
         private void Monitor_OnPrintCheck(string description, bool causesError)
         {
-            lblPrinterStatus.Text = description;
+           lblPrinterStatus.Text = " - " + description;
         }
 
         private void Monitor_OnTick(int second, int countdown)
         {
-            lblCountDown.Text = "Verificando em: " + countdown + " segundo(s)";
+            lblCountDown.Text = ("Verificando em: " + countdown + " segundo(s)").ToUpper();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -40,13 +40,15 @@ namespace Kiosk.Guardian
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
-                this.Hide();
+                //this.Hide();
+                this.WindowState = FormWindowState.Minimized;
             }
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             lblCountDown.Text = "Parado";
+            lblPrinterStatus.Text = "";
             kioskProperties = new KioskProperties();
             propertyGrid1.SelectedObject = kioskProperties;
             kioskProperties.Get();
@@ -76,6 +78,7 @@ namespace Kiosk.Guardian
                     btnStart.Text = "Parar";
                     propertyGrid1.Enabled = false;
                     btnSalvar.Enabled = false;
+                    btnStartAndMinimize.Enabled = false;
                 }
                 else
                 {
@@ -86,6 +89,7 @@ namespace Kiosk.Guardian
                     kioskProperties.Save();
                     Show();
                     lblCountDown.Text = "Parado";
+                    btnStartAndMinimize.Enabled = true;
                 }
             }
             catch (Exception er)
@@ -122,6 +126,15 @@ namespace Kiosk.Guardian
         {
             this.ShowInTaskbar = true;
             this.Show();
+        }
+
+        private void btnStartAndMinimize_Click(object sender, EventArgs e)
+        {
+            btnStart.PerformClick();
+            if (kioskProperties.Running)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
         }
     }
 }

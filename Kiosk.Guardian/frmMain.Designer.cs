@@ -44,6 +44,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblCountDown = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPrinterStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnStartAndMinimize = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -62,33 +63,35 @@
             // propertyGrid1
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.Location = new System.Drawing.Point(0, 24);
+            this.propertyGrid1.Location = new System.Drawing.Point(0, 33);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(631, 425);
+            this.propertyGrid1.Size = new System.Drawing.Size(631, 416);
             this.propertyGrid1.TabIndex = 0;
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSalvar,
-            this.btnStart});
+            this.btnStart,
+            this.btnStartAndMinimize});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(631, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(631, 33);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // btnSalvar
             // 
             this.btnSalvar.Name = "btnSalvar";
-            this.btnSalvar.Size = new System.Drawing.Size(50, 20);
+            this.btnSalvar.Size = new System.Drawing.Size(75, 29);
             this.btnSalvar.Text = "Salvar";
             this.btnSalvar.Click += new System.EventHandler(this.btnSalvar_Click);
             // 
             // btnStart
             // 
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(51, 20);
+            this.btnStart.Size = new System.Drawing.Size(76, 29);
             this.btnStart.Text = "Iniciar";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
@@ -158,6 +161,13 @@
             this.lblPrinterStatus.Size = new System.Drawing.Size(82, 17);
             this.lblPrinterStatus.Text = "[PrinterStatus]";
             // 
+            // btnStartAndMinimize
+            // 
+            this.btnStartAndMinimize.Name = "btnStartAndMinimize";
+            this.btnStartAndMinimize.Size = new System.Drawing.Size(181, 29);
+            this.btnStartAndMinimize.Text = "Iniciar e Minimizar";
+            this.btnStartAndMinimize.Click += new System.EventHandler(this.btnStartAndMinimize_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -201,6 +211,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lblCountDown;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel lblPrinterStatus;
+        private System.Windows.Forms.ToolStripMenuItem btnStartAndMinimize;
     }
 }
 

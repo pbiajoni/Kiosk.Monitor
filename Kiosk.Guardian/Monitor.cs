@@ -70,7 +70,10 @@ namespace Kiosk.Guardian
         {
             try
             {
-                PrinterStatus("EPSON TM-T88V Receipt");
+                if (_kioskProperties.CheckPrinter)
+                {
+                    PrinterStatus(_kioskProperties.PrinterName);
+                }
             }
             catch (Exception)
             {
@@ -108,8 +111,6 @@ namespace Kiosk.Guardian
 
                 if (printQueue != null)
                 {                    
-                    Console.WriteLine(printQueue.IsDoorOpened.ToString());
-                    //Console.WriteLine(printQueue.);
                     PrintQueueStatus status = printQueue.QueueStatus;
 
                     if (status == PrintQueueStatus.Error)
@@ -169,13 +170,33 @@ namespace Kiosk.Guardian
                         causesError = true;
                     }
 
-                    if (status == PrintQueueStatus.Waiting)
+                    if (status == PrintQueueStatus.NotAvailable)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ INDISPONÍVEL");
+                        causesError = true;
+                    }
+
+                    if (status == PrintQueueStatus.None)
                     {
                         statusDescription = ("A IMPRESSORA ESTÁ OCIOSA");
                     }
 
-                    statusDescription = status.ToString();
+                    if (status == PrintQueueStatus.DoorOpen)
+                    {
+                        statusDescription = ("A PORTA DA IMPRESSORA ESTÁ ABERTA");
+                    }
 
+                    if (status == PrintQueueStatus.Offline)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ OFFLINE");
+                    }
+
+                    if (status == PrintQueueStatus.ManualFeed)
+                    {
+                        statusDescription = ("USUÁRIO PRECIONANDO BOTÃO FEED MANUAL");
+                    }
+
+                    //statusDescription = status.ToString();
                 }
                 else
                 {
@@ -184,6 +205,11 @@ namespace Kiosk.Guardian
 
                 if (OnPrintCheck != null)
                 {
+                    if(causesError && _IsRunning)
+                    {
+
+                    }
+
                     OnPrintCheck(statusDescription, causesError);
                 }
             }
