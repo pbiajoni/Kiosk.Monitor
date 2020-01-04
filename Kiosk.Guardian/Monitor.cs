@@ -11,6 +11,7 @@ namespace Kiosk.Guardian
 {
     public class Monitor
     {
+        bool printerAlertSended = false;
         Postman postman = null;
         bool _firstRun = true;
         bool _isTurningOff = false;
@@ -40,13 +41,9 @@ namespace Kiosk.Guardian
             _kioskProperties = properties;
 
             _timer = new Timer();
-            _timerPrinter = new Timer();
-            _timerPrinter.Interval = (5 * 1000);
             _timer.Interval = 1000;
-            _timerPrinter.Tick += _timerPrinter_Tick;
             _timer.Tick += _timer_Tick;
             _timer.Start();
-            _timerPrinter.Start();
             _IsRunning = true;
             _kioskProperties.Running = true;
             _seconds = 0;
@@ -62,18 +59,14 @@ namespace Kiosk.Guardian
                 postman.ToMail = _kioskProperties.ToMail;
             }
 
-            //TestKiosk();
-            _firstRun = false;
+            PrinterCheckStart();
         }
 
         private void _timerPrinter_Tick(object sender, EventArgs e)
         {
             try
             {
-                if (_kioskProperties.CheckPrinter)
-                {
-                    PrinterStatus(_kioskProperties.PrinterName);
-                }
+                PrinterStatus(_kioskProperties.PrinterName);
             }
             catch (Exception)
             {
@@ -105,98 +98,92 @@ namespace Kiosk.Guardian
             if (_kioskProperties.CheckPrinter)
             {
                 PrintQueue printQueue = GetPrintQueue(printerName);
-                
+
                 string statusDescription = "AGUARDANDO INFORMAÇÕES DA IMPRESSORA";
                 bool causesError = false;
 
                 if (printQueue != null)
-                {                    
+                {
                     PrintQueueStatus status = printQueue.QueueStatus;
 
-                    if (status == PrintQueueStatus.Error)
+                    if (printQueue.IsDoorOpened)
                     {
-                        statusDescription = ("A IMPRESSORA ESTÁ EM ESTADO DE ERRO");
+                        statusDescription = ("A PORTA DA IMPRESSORA ESTÁ ABERTA");
                         causesError = true;
                     }
 
-                    if (status == PrintQueueStatus.Offline)
-                    {
-                        statusDescription = ("A IMPRESSORA ESTÁ OFFLINE");
-                        causesError = true;
-                    }
-
-                    if (status == PrintQueueStatus.PaperJam)
-                    {
-                        statusDescription = ("A IMPRESSORA ESTÁ COM PAPEL AGARRADO");
-                        causesError = true;
-                    }
-
-                    if (status == PrintQueueStatus.PaperOut)
-                    {
-                        statusDescription = ("A IMPRESSORA ESTÁ SEM PAPEL");
-                        causesError = true;
-                    }
-
-                    if (status == PrintQueueStatus.PaperProblem)
-                    {
-                        statusDescription = ("O PAPEL DA IMPRESSORA ESTÁ CAUSANDO ALGUM ERRO");
-                        causesError = true;
-                    }
-
-                    if (status == PrintQueueStatus.Paused)
-                    {
-                        statusDescription = ("A FILA DE IMPRESSÃO ESTÁ EM PAUSA");
-                        causesError = true;
-                    }
-
-                    if (status == PrintQueueStatus.PendingDeletion)
-                    {
-                        statusDescription = ("A FILA DE IMPRESSÃO ESTÁ EXCLUINDO UM TRABALHO");
-                    }
-
-                    if (status == PrintQueueStatus.Printing)
-                    {
-                        statusDescription = ("A IMPRESSORA ESTÁ IMPRIMINDO");
-                    }
-
-                    if (status == PrintQueueStatus.TonerLow)
-                    {
-                        statusDescription = ("A IMPRESSORA ESTÁ COM POUCO PAPEL");
-                    }
-
-                    if (status == PrintQueueStatus.UserIntervention)
-                    {
-                        statusDescription = ("A IMPRESSORA PRECISA DE INTERVENÇÃO HUMANA PARA CORRIGIR UM ERRO");
-                        causesError = true;
-                    }
-
-                    if (status == PrintQueueStatus.NotAvailable)
+                    if (printQueue.IsNotAvailable)
                     {
                         statusDescription = ("A IMPRESSORA ESTÁ INDISPONÍVEL");
                         causesError = true;
                     }
 
+                    if (printQueue.IsOutOfPaper)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ SEM PAPEL");
+                        causesError = true;
+                    }
+
+                    if (printQueue.IsPaperJammed)
+                    {
+                        statusDescription = "A IMPRESSORA ESTÁ COM PAPEL AGARRADO";
+                        causesError = true;
+                    }
+
+                    if (printQueue.IsPaused)
+                    {
+                        statusDescription = "A IMPRESSORA ESTÁ PAUSADA";
+                        causesError = true;
+                    }
+
+                    if (printQueue.IsPendingDeletion)
+                    {
+                        statusDescription = "A IMPRESSORA ESTÁ AGUARDANDO UM PROCESSO DE EXCLUSÃO NA FILA";
+                        causesError = true;
+                    }
+
+                    if (printQueue.IsPrinting)
+                    {
+                        statusDescription = "A IMPRESSORA ESTÁ IMPRIMINDO";
+                        printerAlertSended = false;
+                    }
+
+                    if (printQueue.IsTonerLow)
+                    {
+                        statusDescription = "A IMPRESSORA ESTÁ COM POUCO TONER";
+                    }
+
+                    if (printQueue.IsWaiting)
+                    {
+                        statusDescription = "A IMPRESSORA ESTÁ AGUARDANDO";
+                        printerAlertSended = false;
+                    }
+
+                    if (printQueue.IsWarmingUp)
+                    {
+                        statusDescription = "A IMPRESSORA ESTÁ AQUECENDO";
+                        printerAlertSended = false;
+                    }
+
+                    if (printQueue.IsInError)
+                    {
+                        statusDescription = "A IMPRESSORA ESTÁ EM ESTADO DE ERRO";
+                        causesError = true;
+                    }
+
+                    if (printQueue.HasPaperProblem)
+                    {
+                        statusDescription = "ESTÁ COM PROBLEMA NO PAPEL";
+                        causesError = true;
+                    }
+
                     if (status == PrintQueueStatus.None)
                     {
-                        statusDescription = ("A IMPRESSORA ESTÁ OCIOSA");
+                        statusDescription = "IMPRESSORA DISPONÍVEL";
+                        printerAlertSended = false;
                     }
 
-                    if (status == PrintQueueStatus.DoorOpen)
-                    {
-                        statusDescription = ("A PORTA DA IMPRESSORA ESTÁ ABERTA");
-                    }
-
-                    if (status == PrintQueueStatus.Offline)
-                    {
-                        statusDescription = ("A IMPRESSORA ESTÁ OFFLINE");
-                    }
-
-                    if (status == PrintQueueStatus.ManualFeed)
-                    {
-                        statusDescription = ("USUÁRIO PRECIONANDO BOTÃO FEED MANUAL");
-                    }
-
-                    //statusDescription = status.ToString();
+                    statusDescription += "(" + status.ToString().ToUpper() + ")";
                 }
                 else
                 {
@@ -205,27 +192,51 @@ namespace Kiosk.Guardian
 
                 if (OnPrintCheck != null)
                 {
-                    if(causesError && _IsRunning)
+                    if (causesError && !printerAlertSended)
                     {
+                        SendAlert("ERRO IMPRESSORA", statusDescription);
+                        printerAlertSended = true;
+                        _timer.Stop();
+                        _IsRunning = false;
+                        KillKiosk();
+                    }
 
+                    if (!causesError && !printerAlertSended && !_IsRunning)
+                    {
+                        _timer.Start();
+                        _IsRunning = true;
+                        TestKiosk();
                     }
 
                     OnPrintCheck(statusDescription, causesError);
                 }
             }
         }
-        void SendAlert(string message)
+        void SendAlert(string subject, string message)
         {
             try
             {
                 if (!_firstRun && postman != null)
                 {
-                    postman.Send(message);
+                    postman.Send(subject, message);
                 }
             }
             catch (Exception)
             {
 
+            }
+        }
+
+        void KillKiosk()
+        {
+            Process[] processlist = Process.GetProcesses();
+
+            foreach (Process process in processlist)
+            {
+                if (process.ProcessName.ToLower() == _kioskProperties.ProcessName.ToLower())
+                {
+                    process.Kill();
+                }
             }
         }
 
@@ -260,14 +271,16 @@ namespace Kiosk.Guardian
             if (kioskStatus == KioskStatus.NotResponding)
             {
                 Process.Start(_kioskProperties.KioskPath);
-                SendAlert("O APLICATIVO ESTAVA TRAVADO E FOI REINICIADO");
+                SendAlert("EVENTO ", "O APLICATIVO ESTAVA TRAVADO E FOI REINICIADO");
             }
 
             if (kioskStatus == KioskStatus.Off)
             {
-                SendAlert("O APLICATIVO FECHOU E FOI ABERTO NOVAMENTE");
+                SendAlert("EVENTO", "O APLICATIVO FECHOU E FOI ABERTO NOVAMENTE");
                 Process.Start(_kioskProperties.KioskPath);
             }
+
+            _firstRun = false;
         }
 
         private void _timer_Tick(object sender, EventArgs e)
@@ -307,14 +320,31 @@ namespace Kiosk.Guardian
             }
         }
 
+        void PrinterCheckStart()
+        {
+            if (_kioskProperties.CheckPrinter)
+            {
+                _timerPrinter = new Timer();
+                _timerPrinter.Interval = (5 * 1000);
+                _timerPrinter.Tick += _timerPrinter_Tick;
+                _timerPrinter.Start();
+            }
+        }
+        void PrinterCheckStop()
+        {
+            if (_timerPrinter != null && !printerAlertSended)
+            {
+                _timerPrinter.Stop();
+            }
+        }
         public void Stop()
         {
             _timer.Stop();
-            _timerPrinter.Stop();
             _IsRunning = false;
             _kioskProperties.Running = false;
             _firstRun = true;
             postman = null;
+            PrinterCheckStop();
         }
 
     }

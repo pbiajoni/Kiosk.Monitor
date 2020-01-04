@@ -17,10 +17,10 @@ namespace Kiosk.Guardian
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public void Send(string body)
+        public void Send(string subject, string body)
         {
             MailMessage message = new MailMessage();
-            message.Subject = "ATM - ALERTA DE " + Environment.MachineName;
+            message.Subject = subject + " - " + Environment.MachineName.ToUpper();
             message.IsBodyHtml = false;
             MailAddress to = new MailAddress(ToMail);
             message.To.Add(to);

@@ -27,6 +27,11 @@ namespace Kiosk.Guardian
         private void Monitor_OnPrintCheck(string description, bool causesError)
         {
            lblPrinterStatus.Text = " - " + description;
+
+            if (causesError)
+            {
+                lblCountDown.Text = "EM MANUTENÇÃO";
+            }
         }
 
         private void Monitor_OnTick(int second, int countdown)
@@ -56,7 +61,7 @@ namespace Kiosk.Guardian
             if (kioskProperties.Running)
             {
                 btnStart.PerformClick();
-                HideMe();
+                this.WindowState = FormWindowState.Minimized;
             }
         }
 
@@ -75,6 +80,7 @@ namespace Kiosk.Guardian
                 {
                     kioskProperties.Save();
                     monitor.Run(kioskProperties);
+                    kioskProperties.Save();
                     btnStart.Text = "Parar";
                     propertyGrid1.Enabled = false;
                     btnSalvar.Enabled = false;
