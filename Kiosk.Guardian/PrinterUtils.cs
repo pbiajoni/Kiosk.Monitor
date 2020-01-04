@@ -9,7 +9,7 @@ namespace Kiosk.Guardian
 {
     public class PrinterUtils
     {
-
+        [STAThread]
         public static void GetPrinterProperties()
         {
             //Printer
@@ -18,6 +18,8 @@ namespace Kiosk.Guardian
             string[] printerState = {"Paused","Error","Pending Deletion","Paper Jam","Paper Out","Manual Feed","Paper Problem", "Offline","IO Active","Busy","Printing",
             "Output Bin Full","Not Available","Waiting", "Processing","Initialization","Warming Up","Toner Low","No Toner","Page Punt", "User Intervention Required",
             "Out of Memory","Door Open","Server_Unknown","Power Save"};
+            ManagementScope scope = new ManagementScope(@"\root\cimv2");
+            scope.Connect();
 
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Printer");
 
@@ -34,9 +36,11 @@ namespace Kiosk.Guardian
                             case "name":
                                 //memoPrintDetail.AppendText("Default Printer Name : " + data.Value + "\n"); //This Code is Working
                                 statComplete += 1;
+                                Console.WriteLine(data.Value);
                                 break;
                             case "printerstate":
                                 //memoPrintDetail.AppendText("Printer State : " + printerState[Convert.ToInt32(data.Value)] + "\n"); //Always give "Paused" state
+                                Console.WriteLine(printerState[Convert.ToInt32(data.Value)]);
                                 statComplete += 1;
                                 break;
                             case "printerstatus":

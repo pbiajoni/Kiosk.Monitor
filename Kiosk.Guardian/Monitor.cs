@@ -11,7 +11,6 @@ namespace Kiosk.Guardian
 {
     public class Monitor
     {
-        PrintQueue printQueue = LocalPrintServer.GetDefaultPrintQueue();
         Postman postman = null;
         bool _firstRun = true;
         bool _isTurningOff = false;
@@ -71,7 +70,7 @@ namespace Kiosk.Guardian
         {
             try
             {
-                PrinterStatus();
+                PrinterStatus("EPSON TM-T88V Receipt");
             }
             catch (Exception)
             {
@@ -79,81 +78,109 @@ namespace Kiosk.Guardian
             }
         }
 
-        void PrinterStatus()
+        PrintQueue GetPrintQueue(string printerName)
+        {
+            PrintServer printServer = new PrintServer("\\\\" + Environment.MachineName, PrintSystemDesiredAccess.AdministrateServer);
+            PrintQueueCollection printQueues = printServer.GetPrintQueues(new[] { EnumeratedPrintQueueTypes.Local,
+                    EnumeratedPrintQueueTypes.Connections });
+
+            foreach (PrintQueue printQueue in printQueues)
+            {
+                printServer.Refresh();
+                printQueue.Refresh();
+                if (printQueue.Name.ToLower().Contains(printerName.ToLower()))
+                {
+                    return printQueue;
+                }
+            }
+
+            return null;
+        }
+
+        void PrinterStatus(string printerName)
         {
             if (_kioskProperties.CheckPrinter)
             {
-                PrinterUtils.GetPrinterProperties();
-                //_timer.Stop();
-                //_timerPrinter.Stop();
-                printQueue = LocalPrintServer.GetDefaultPrintQueue();
+                PrintQueue printQueue = GetPrintQueue(printerName);
+                
                 string statusDescription = "AGUARDANDO INFORMAÇÕES DA IMPRESSORA";
                 bool causesError = false;
 
-                PrintQueueStatus status = printQueue.QueueStatus;
-                if (status == PrintQueueStatus.Error)
-                {
-                    statusDescription = ("A IMPRESSORA ESTÁ EM ESTADO DE ERRO");
-                    causesError = true;
-                }
+                if (printQueue != null)
+                {                    
+                    Console.WriteLine(printQueue.IsDoorOpened.ToString());
+                    //Console.WriteLine(printQueue.);
+                    PrintQueueStatus status = printQueue.QueueStatus;
 
-                if (status == PrintQueueStatus.Offline)
-                {
-                    statusDescription = ("A IMPRESSORA ESTÁ OFFLINE");
-                    causesError = true;
-                }
+                    if (status == PrintQueueStatus.Error)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ EM ESTADO DE ERRO");
+                        causesError = true;
+                    }
 
-                if (status == PrintQueueStatus.PaperJam)
-                {
-                    statusDescription = ("A IMPRESSORA ESTÁ COM PAPEL AGARRADO");
-                    causesError = true;
-                }
+                    if (status == PrintQueueStatus.Offline)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ OFFLINE");
+                        causesError = true;
+                    }
 
-                if (status == PrintQueueStatus.PaperOut)
-                {
-                    statusDescription = ("A IMPRESSORA ESTÁ SEM PAPEL");
-                    causesError = true;
-                }
+                    if (status == PrintQueueStatus.PaperJam)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ COM PAPEL AGARRADO");
+                        causesError = true;
+                    }
 
-                if (status == PrintQueueStatus.PaperProblem)
-                {
-                    statusDescription = ("O PAPEL DA IMPRESSORA ESTÁ CAUSANDO ALGUM ERRO");
-                    causesError = true;
-                }
+                    if (status == PrintQueueStatus.PaperOut)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ SEM PAPEL");
+                        causesError = true;
+                    }
 
-                if (status == PrintQueueStatus.Paused)
-                {
-                    statusDescription = ("A FILA DE IMPRESSÃO ESTÁ EM PAUSA");
-                    causesError = true;
-                }
+                    if (status == PrintQueueStatus.PaperProblem)
+                    {
+                        statusDescription = ("O PAPEL DA IMPRESSORA ESTÁ CAUSANDO ALGUM ERRO");
+                        causesError = true;
+                    }
 
-                if (status == PrintQueueStatus.PendingDeletion)
-                {
-                    statusDescription = ("A FILA DE IMPRESSÃO ESTÁ EXCLUINDO UM TRABALHO");
-                }
+                    if (status == PrintQueueStatus.Paused)
+                    {
+                        statusDescription = ("A FILA DE IMPRESSÃO ESTÁ EM PAUSA");
+                        causesError = true;
+                    }
 
-                if (status == PrintQueueStatus.Printing)
-                {
-                    statusDescription = ("A IMPRESSORA ESTÁ IMPRIMINDO");
-                }
+                    if (status == PrintQueueStatus.PendingDeletion)
+                    {
+                        statusDescription = ("A FILA DE IMPRESSÃO ESTÁ EXCLUINDO UM TRABALHO");
+                    }
 
-                if (status == PrintQueueStatus.TonerLow)
-                {
-                    statusDescription = ("A IMPRESSORA ESTÁ COM POUCO PAPEL");
-                }
+                    if (status == PrintQueueStatus.Printing)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ IMPRIMINDO");
+                    }
 
-                if (status == PrintQueueStatus.UserIntervention)
-                {
-                    statusDescription = ("A IMPRESSORA PRECISA DE INTERVENÇÃO HUMANA PARA CORRIGIR UM ERRO");
-                    causesError = true;
-                }
+                    if (status == PrintQueueStatus.TonerLow)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ COM POUCO PAPEL");
+                    }
 
-                if (status == PrintQueueStatus.Waiting)
-                {
-                    statusDescription = ("A IMPRESSORA ESTÁ OCIOSA");
-                }
+                    if (status == PrintQueueStatus.UserIntervention)
+                    {
+                        statusDescription = ("A IMPRESSORA PRECISA DE INTERVENÇÃO HUMANA PARA CORRIGIR UM ERRO");
+                        causesError = true;
+                    }
 
-                statusDescription = status.ToString();
+                    if (status == PrintQueueStatus.Waiting)
+                    {
+                        statusDescription = ("A IMPRESSORA ESTÁ OCIOSA");
+                    }
+
+                    statusDescription = status.ToString();
+
+                }
+                else
+                {
+                    statusDescription = "IMPRESSORA NÃO DETECTADA";
+                }
 
                 if (OnPrintCheck != null)
                 {
