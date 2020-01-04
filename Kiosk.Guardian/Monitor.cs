@@ -199,6 +199,7 @@ namespace Kiosk.Guardian
                         _timer.Stop();
                         _IsRunning = false;
                         KillKiosk();
+                        MaintenanceUtils.PutOnMaintenance();
                     }
 
                     if (!causesError && !printerAlertSended && !_IsRunning)
@@ -206,6 +207,7 @@ namespace Kiosk.Guardian
                         _timer.Start();
                         _IsRunning = true;
                         TestKiosk();
+                        MaintenanceUtils.CloseMaintenance();
                     }
 
                     OnPrintCheck(statusDescription, causesError);
@@ -227,7 +229,7 @@ namespace Kiosk.Guardian
             }
         }
 
-        void KillKiosk()
+        public void KillKiosk()
         {
             Process[] processlist = Process.GetProcesses();
 

@@ -45,6 +45,7 @@
             this.lblCountDown = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPrinterStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnStartAndMinimize = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMaintenance = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -74,7 +75,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSalvar,
             this.btnStart,
-            this.btnStartAndMinimize});
+            this.btnStartAndMinimize,
+            this.btnMaintenance});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(631, 33);
@@ -168,6 +170,13 @@
             this.btnStartAndMinimize.Text = "Iniciar e Minimizar";
             this.btnStartAndMinimize.Click += new System.EventHandler(this.btnStartAndMinimize_Click);
             // 
+            // btnMaintenance
+            // 
+            this.btnMaintenance.Name = "btnMaintenance";
+            this.btnMaintenance.Size = new System.Drawing.Size(231, 29);
+            this.btnMaintenance.Text = "Colocar em Manutenção";
+            this.btnMaintenance.Click += new System.EventHandler(this.btnMaintenance_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,6 +221,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel lblPrinterStatus;
         private System.Windows.Forms.ToolStripMenuItem btnStartAndMinimize;
+        private System.Windows.Forms.ToolStripMenuItem btnMaintenance;
     }
 }
 

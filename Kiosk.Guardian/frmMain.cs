@@ -142,5 +142,10 @@ namespace Kiosk.Guardian
                 this.WindowState = FormWindowState.Minimized;
             }
         }
+
+        private void btnMaintenance_Click(object sender, EventArgs e)
+        {
+            MaintenanceUtils.PutOnMaintenance();
+        }
     }
 }

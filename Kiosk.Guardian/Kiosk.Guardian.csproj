@@ -27,9 +27,9 @@
     <ProductName>Kiosk Guardian Homolog</ProductName>
     <PublisherName>Pablo Biajoni</PublisherName>
     <SuiteName>Kiosk Guardian Homolog</SuiteName>
-    <MinimumRequiredVersion>1.0.0.23</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.28</MinimumRequiredVersion>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>24</ApplicationRevision>
+    <ApplicationRevision>29</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="KioskEnums.cs" />
     <Compile Include="KioskProperties.cs" />
+    <Compile Include="MaintenanceUtils.cs" />
     <Compile Include="Monitor.cs" />
     <Compile Include="Postman.cs" />
     <Compile Include="PrinterUtils.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Kiosk.Guardian_TemporaryKey.pfx" />
     <None Include="packages.config" />
@@ -142,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="guard.ico" />
+    <None Include="Resources\atm.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
