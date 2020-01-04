@@ -27,9 +27,9 @@
     <ProductName>Kiosk Guardian Homolog</ProductName>
     <PublisherName>Pablo Biajoni</PublisherName>
     <SuiteName>Kiosk Guardian Homolog</SuiteName>
-    <MinimumRequiredVersion>1.0.0.28</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.0.31</MinimumRequiredVersion>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>29</ApplicationRevision>
+    <ApplicationRevision>32</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -56,7 +56,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>guard.ico</ApplicationIcon>
+    <ApplicationIcon>atm.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>E33B3F279688BD3F32E25DD45D8616DC961F301C</ManifestCertificateThumbprint>
@@ -143,6 +143,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="atm.ico" />
     <Content Include="guard.ico" />
     <None Include="Resources\atm.png" />
   </ItemGroup>

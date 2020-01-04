@@ -9,6 +9,7 @@ namespace Kiosk.Guardian
 {
     public class MaintenanceUtils
     {
+        public static Form MainForm { get; set; }
         public static frmMaintenance _maintenance;
         public static void PutOnMaintenance()
         {
@@ -26,6 +27,7 @@ namespace Kiosk.Guardian
             {
                 _maintenance.Close();
                 _maintenance = null;
+                MainForm.WindowState = FormWindowState.Normal;
             }
         }
     }

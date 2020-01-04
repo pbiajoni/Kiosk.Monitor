@@ -52,6 +52,7 @@ namespace Kiosk.Guardian
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            MaintenanceUtils.MainForm = this;
             lblCountDown.Text = "Parado";
             lblPrinterStatus.Text = "";
             kioskProperties = new KioskProperties();
