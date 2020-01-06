@@ -62,8 +62,11 @@ namespace Kiosk.Guardian
                 postman.ToMail = _kioskProperties.ToMail;
             }
 
-            PrinterCheckStart();
-            TestKiosk();
+            if (_kioskProperties.CheckOnStartup)
+            {
+                PrinterCheckStart();
+                TestKiosk();
+            }
         }
 
         private void _timerPrinter_Tick(object sender, EventArgs e)
@@ -242,9 +245,9 @@ namespace Kiosk.Guardian
                     postman.Send(subject, message);
                 }
 
-                if (!_firstRun)
+                if (!_firstRun && _kioskProperties.NotifyTelegram)
                 {
-                    Postman.SendToTelegram(Environment.MachineName.ToUpper() + " - " + message.ToUpperInvariant(),
+                    Postman.SendToTelegram(Environment.MachineName.ToUpper() + " -> " + message.ToUpperInvariant(),
                         _kioskProperties.ChatID, _kioskProperties.TelegramToken);
                 }
             }

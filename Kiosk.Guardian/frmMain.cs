@@ -54,11 +54,19 @@ namespace Kiosk.Guardian
         private void frmMain_Load(object sender, EventArgs e)
         {
             MaintenanceUtils.MainForm = this;
+            MaintenanceUtils.MainPropertyGrid = propertyGrid1;
+
             lblCountDown.Text = "Parado";
             lblPrinterStatus.Text = "";
             kioskProperties = new KioskProperties();
             propertyGrid1.SelectedObject = kioskProperties;
             kioskProperties.Get();
+            //propertyGrid1.CollapseAllGridItems();
+
+            if (kioskProperties.RemoteCfg)
+            {
+                btnSalvar.Enabled = false;
+            }
 
             if (kioskProperties.Running)
             {

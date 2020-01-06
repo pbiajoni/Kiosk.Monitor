@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,6 +13,12 @@ namespace Kiosk.Guardian
     {
         public static Form MainForm { get; set; }
         public static frmMaintenance _maintenance;
+        public static PropertyGrid MainPropertyGrid { get; set; }
+
+        public static void SetReadyOnly()
+        {
+            TypeDescriptor.AddAttributes(MainPropertyGrid.SelectedObject, new Attribute[] { new ReadOnlyAttribute(true) });
+        }
         public static void PutOnMaintenance()
         {
             if (_maintenance == null)
@@ -24,7 +31,7 @@ namespace Kiosk.Guardian
 
         public static void CloseMaintenance(bool showMonitor = false)
         {
-            if(_maintenance != null)
+            if (_maintenance != null)
             {
                 _maintenance.Close();
                 _maintenance = null;

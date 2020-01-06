@@ -151,11 +151,21 @@ namespace Kiosk.Guardian
         [Description("ID do chat em que devem ser recebidas as notificações")]
         public string ChatID { get; set; }
 
-        //-248876043
         [Category("Telegram")]
         [DisplayName("Token")]
         [Description("Token de autorização do Bot")]
         public string TelegramToken { get; set; }
+
+        [RefreshProperties(RefreshProperties.All)]
+        [Category("Configurações")]
+        [DisplayName("Buscar configurações remotamente")]
+        [Description("Busca as configurações no settings.ini em uma pasta remota")]
+        public bool RemoteCfg { get; set; }
+
+        [Category("Configurações")]
+        [DisplayName("Caminho das configurações")]
+        [Description("O caminho do arquivo settings.ini")]
+        public string SettingsPath { get; set; }
 
         void ValidateDirectory()
         {
@@ -244,6 +254,7 @@ namespace Kiosk.Guardian
             ini.IniWriteValue("Telegram", "ChatID", ChatID);
             ini.IniWriteValue("Telegram", "NotifyTelegram", NotifyTelegram.ToString());
             ini.IniWriteValue("Telegram", "Token", !string.IsNullOrEmpty(TelegramToken) ? MaintenanceUtils.Codificar(TelegramToken) : "");
+
         }
 
         public void Get()
@@ -251,6 +262,16 @@ namespace Kiosk.Guardian
             if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
                 , "Kiosk", "settings.ini")))
             {
+                try { RemoteCfg = Convert.ToBoolean(ini.IniReadValue("Cfg", "RemoteCfg")); } catch (Exception) { RemoteCfg = false; }
+                SettingsPath = ini.IniReadValue("Cfg", "SettingsPath");
+
+                if (RemoteCfg)
+                {
+                    ini = new IniFile(Path.Combine(SettingsPath));
+                    MaintenanceUtils.MainForm.Text += " - Configuração Remota";
+                    //MaintenanceUtils.MainPropertyGrid.SetAllReadyOnly();
+                }
+
                 KioskPath = ini.IniReadValue("MultiClubes", "KioskPath");
                 ProcessName = ini.IniReadValue("MultiClubes", "ProccessName");
 
