@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace Kiosk.Guardian
 {
@@ -18,10 +19,11 @@ namespace Kiosk.Guardian
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public void SendToTelegram(string message, string token)
+        public static void SendToTelegram(string message, string chatid, string token)
         {
+            message = message + " - " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
             TelegramBotClient client = new TelegramBotClient(token);
-            //await client.SendTextMessageAsync()
+            client.SendTextMessageAsync(new ChatId(chatid), message);
         }
 
         public void Send(string subject, string body)

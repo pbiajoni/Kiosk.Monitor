@@ -25,7 +25,7 @@ namespace Kiosk.Guardian
         public event OnTickEventHandler OnTick;
         public delegate void OnPrintCheckEventHandler(string description, bool causesError);
         public event OnPrintCheckEventHandler OnPrintCheck;
-        public delegate void OnStopEventHandler (int origin);
+        public delegate void OnStopEventHandler(int origin);
         public event OnStopEventHandler OnStop;
         public Monitor()
         {
@@ -240,6 +240,12 @@ namespace Kiosk.Guardian
                 if (!_firstRun && postman != null)
                 {
                     postman.Send(subject, message);
+                }
+
+                if (!_firstRun)
+                {
+                    Postman.SendToTelegram(Environment.MachineName.ToUpper() + " - " + message.ToUpperInvariant(),
+                        _kioskProperties.ChatID, _kioskProperties.TelegramToken);
                 }
             }
             catch (Exception)
