@@ -73,6 +73,13 @@ namespace Kiosk.Guardian
         [DisplayName("Intervalo")]
         [Description("Intervalo em que será verificado se o Kiosk está em operação")]
         public int Interval { get; set; }
+
+        [DefaultValueAttribute(false)]
+        [Category("Verificação")]
+        [DisplayName("Verificar ao iniciar")]
+        [Description("Verifica o kiosk ao iniciar o guardian, caso não, ele verificará apenas na próxima tentativa")]
+        public bool CheckOnStartup { get; set; }
+
         [Category("Ferramentas")]
         [DisplayName("Desligar ATM")]
         [Description("Define que o ATM será desligado no horário agendado")]
@@ -119,6 +126,7 @@ namespace Kiosk.Guardian
         public string Username { get; set; }
 
         [Category("Log")]
+        [PasswordPropertyText(true)]
         [DisplayName("Senha")]
         [Description("Senha SMTP")]
         public string Password { get; set; }
@@ -132,6 +140,22 @@ namespace Kiosk.Guardian
         [DisplayName("Para")]
         [Description("Endereço de email que receberá os logs")]
         public string ToMail { get; set; }
+
+        [Category("Telegram")]
+        [DisplayName("Notificar via Telegram")]
+        [Description("Se o guardian deve notificar via telegram")]
+        public bool NotifyTelegram { get; set; }
+
+        [Category("Telegram")]
+        [DisplayName("ID do Chat")]
+        [Description("ID do chat em que devem ser recebidas as notificações")]
+        public string ChatID { get; set; }
+
+        //-248876043
+        [Category("Telegram")]
+        [DisplayName("Token")]
+        [Description("Token de autorização do Bot")]
+        public string TelegramToken { get; set; }
 
         void ValidateDirectory()
         {
@@ -185,10 +209,21 @@ namespace Kiosk.Guardian
                 throw new Exception("O email de destino de email deve estar especificado");
             }
 
+            if (NotifyTelegram && string.IsNullOrEmpty(TelegramToken))
+            {
+                throw new Exception("O token do bot telegram deve ser especificado");
+            }
+
+            if (NotifyTelegram && string.IsNullOrEmpty(ChatID))
+            {
+                throw new Exception("A ID do chat telegram deve ser especificado");
+            }
+
             ini.IniWriteValue("MultiClubes", "KioskPath", KioskPath);
             ini.IniWriteValue("MultiClubes", "ProccessName", ProcessName);
 
             ini.IniWriteValue("Validation", "Interval", Interval.ToString());
+            ini.IniWriteValue("Validation", "CheckOnStartup", CheckOnStartup.ToString());
 
             ini.IniWriteValue("Tools", "TurnOff", TurnOff.ToString());
             ini.IniWriteValue("Tools", "Hour", Hour.ToString());
@@ -202,9 +237,13 @@ namespace Kiosk.Guardian
             ini.IniWriteValue("Log", "Smtp", Smtp);
             ini.IniWriteValue("Log", "Port", Port.ToString());
             ini.IniWriteValue("Log", "Username", Username);
-            ini.IniWriteValue("Log", "Password", Password);
+            ini.IniWriteValue("Log", "Password", !string.IsNullOrEmpty(Password) ? MaintenanceUtils.Codificar(Password) : "");
             ini.IniWriteValue("Log", "FromMail", FromMail);
             ini.IniWriteValue("Log", "ToMail", ToMail);
+
+            ini.IniWriteValue("Telegram", "ChatID", ChatID);
+            ini.IniWriteValue("Telegram", "NotifyTelegram", NotifyTelegram.ToString());
+            ini.IniWriteValue("Telegram", "Token", !string.IsNullOrEmpty(TelegramToken) ? MaintenanceUtils.Codificar(TelegramToken) : "");
         }
 
         public void Get()
@@ -216,6 +255,8 @@ namespace Kiosk.Guardian
                 ProcessName = ini.IniReadValue("MultiClubes", "ProccessName");
 
                 Interval = Convert.ToInt32(ini.IniReadValue("Validation", "Interval"));
+                try { CheckOnStartup = Convert.ToBoolean(ini.IniReadValue("Validation", "CheckOnStartup")); } catch (Exception) { CheckOnStartup = false; };
+
                 TurnOff = Convert.ToBoolean(ini.IniReadValue("Tools", "TurnOff"));
                 Hour = Convert.ToInt32(ini.IniReadValue("Tools", "Hour"));
                 Minute = Convert.ToInt32(ini.IniReadValue("Tools", "Minute"));
@@ -227,9 +268,13 @@ namespace Kiosk.Guardian
                 Smtp = ini.IniReadValue("Log", "Smtp");
                 try { Port = Convert.ToInt32(ini.IniReadValue("Log", "Port")); } catch (Exception) { Port = 587; }
                 Username = ini.IniReadValue("Log", "Username");
-                Password = ini.IniReadValue("Log", "Password");
+                Password = !string.IsNullOrEmpty(ini.IniReadValue("Log", "Password")) ? MaintenanceUtils.Decodificar(ini.IniReadValue("Log", "Password")) : "";
                 FromMail = ini.IniReadValue("Log", "FromMail");
                 ToMail = ini.IniReadValue("Log", "ToMail");
+
+                try { NotifyTelegram = Convert.ToBoolean(ini.IniReadValue("Telegram", "NotifyTelegram")); } catch (Exception) { NotifyTelegram = false; }
+                TelegramToken = !string.IsNullOrEmpty(ini.IniReadValue("Telegram", "Token")) ? MaintenanceUtils.Decodificar(ini.IniReadValue("Telegram", "Token")) : "";
+                ChatID = ini.IniReadValue("Telegram", "ChatID");
             }
             else
             {

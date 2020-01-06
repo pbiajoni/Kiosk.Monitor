@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>\\srv-arquivos\aplicativos%24\KioskGuardianHomolog\</PublishUrl>
+    <PublishUrl>\\srv-arquivos\aplicativos%24\KioskGuardian\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -23,13 +23,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\srv-arquivos\aplicativos%24\KioskGuardianHomolog\</InstallUrl>
-    <ProductName>Kiosk Guardian Homolog</ProductName>
+    <InstallUrl>\\srv-arquivos\aplicativos%24\KioskGuardian\</InstallUrl>
+    <ProductName>Kiosk Guardian</ProductName>
     <PublisherName>Pablo Biajoni</PublisherName>
-    <SuiteName>Kiosk Guardian Homolog</SuiteName>
-    <MinimumRequiredVersion>1.0.1.44</MinimumRequiredVersion>
+    <SuiteName>Kiosk Guardian</SuiteName>
+    <MinimumRequiredVersion>1.0.1.45</MinimumRequiredVersion>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>45</ApplicationRevision>
+    <ApplicationRevision>46</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -74,6 +74,9 @@
     <Reference Include="iniSettings, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\iniSettings.1.0.3\lib\netstandard2.0\iniSettings.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -88,6 +91,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Telegram.Bot, Version=15.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Telegram.Bot.15.2.0\lib\net45\Telegram.Bot.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frmMain.cs">
