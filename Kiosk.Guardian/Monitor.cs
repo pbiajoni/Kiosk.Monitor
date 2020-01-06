@@ -62,8 +62,6 @@ namespace Kiosk.Guardian
                 postman.ToMail = _kioskProperties.ToMail;
             }
 
-
-
             if (_kioskProperties.CheckOnStartup)
             {
                 PrinterCheckStart();

@@ -155,6 +155,12 @@ namespace Kiosk.Guardian
 
         private void btnMaintenance_Click(object sender, EventArgs e)
         {
+            if (kioskProperties.Running)
+            {
+                btnStart.PerformClick();
+                monitor.Stop();                
+            }
+
             MaintenanceUtils.PutOnMaintenance();
         }
 
