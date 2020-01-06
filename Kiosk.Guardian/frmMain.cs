@@ -10,8 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Telegram.Bot;
-using Telegram.Bot.Types;
+
 
 namespace Kiosk.Guardian
 {
@@ -48,7 +47,6 @@ namespace Kiosk.Guardian
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 e.Cancel = true;
-                //this.Hide();
                 this.WindowState = FormWindowState.Minimized;
             }
         }
@@ -63,7 +61,7 @@ namespace Kiosk.Guardian
             kioskProperties = new KioskProperties();
             propertyGrid1.SelectedObject = kioskProperties;
             kioskProperties.Get();
-            //propertyGrid1.CollapseAllGridItems();
+
 
             if (kioskProperties.RemoteCfg)
             {

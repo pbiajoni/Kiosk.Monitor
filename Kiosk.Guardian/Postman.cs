@@ -5,9 +5,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using Telegram.Bot;
-using Telegram.Bot.Types;
-
 namespace Kiosk.Guardian
 {
     public class Postman

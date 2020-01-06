@@ -212,12 +212,6 @@ namespace Kiosk.Guardian
                         _IsPaused = true;
                         KillKiosk();
 
-                        if (_kioskProperties.NotifyTelegram)
-                        {
-                            Postman.SendToTelegram(Environment.MachineName.ToUpper() + " -> ERRO IMPRESSORA = " + statusDescription,
-                            _kioskProperties.ChatID, _kioskProperties.TelegramToken);
-                        }
-
                         MaintenanceUtils.PutOnMaintenance();
                     }
 
@@ -265,7 +259,7 @@ namespace Kiosk.Guardian
 
                 if (!_firstRun && _kioskProperties.NotifyTelegram)
                 {
-                    Postman.SendToTelegram(Environment.MachineName.ToUpper() + " -> " + message.ToUpperInvariant(),
+                    Postman.SendToTelegram(Environment.MachineName.ToUpper() + " - " + subject + " -> " + message.ToUpperInvariant(),
                         _kioskProperties.ChatID, _kioskProperties.TelegramToken);
                 }
             }
