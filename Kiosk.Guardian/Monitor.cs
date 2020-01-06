@@ -42,7 +42,7 @@ namespace Kiosk.Guardian
         public void Run(KioskProperties properties)
         {
             _kioskProperties = properties;
-
+            MaintenanceUtils.Passwords = _kioskProperties.Passwords;
             _timer = new Timer();
             _timer.Interval = 1000;
             _timer.Tick += _timer_Tick;

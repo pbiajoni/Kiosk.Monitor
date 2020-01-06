@@ -13,6 +13,7 @@ namespace Kiosk.Guardian
 {
     public partial class frmMaintenance : Form
     {
+        public string Passwords { get; set; }
         public frmMaintenance()
         {
             InitializeComponent();
@@ -121,13 +122,20 @@ namespace Kiosk.Guardian
 
         bool Auth()
         {
-            if (txtPassword.Text == "159753")
+            if (string.IsNullOrEmpty(Passwords))
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                if (txtPassword.Text.Contains(Passwords))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 

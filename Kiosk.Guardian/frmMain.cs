@@ -63,10 +63,10 @@ namespace Kiosk.Guardian
             kioskProperties.Get();
 
 
-            if (kioskProperties.RemoteCfg)
-            {
-                btnSalvar.Enabled = false;
-            }
+            //if (kioskProperties.RemoteCfg)
+            //{
+            //    btnSalvar.Enabled = false;
+            //}
 
             if (kioskProperties.Running)
             {

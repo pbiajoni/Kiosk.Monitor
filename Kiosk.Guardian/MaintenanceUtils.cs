@@ -11,6 +11,7 @@ namespace Kiosk.Guardian
 {
     public class MaintenanceUtils
     {
+        public static string Passwords { get; set; }
         public static Form MainForm { get; set; }
         public static frmMaintenance _maintenance;
         public static PropertyGrid MainPropertyGrid { get; set; }
@@ -25,6 +26,7 @@ namespace Kiosk.Guardian
             {
                 _maintenance = new frmMaintenance();
                 _maintenance.ShowInTaskbar = false;
+                _maintenance.Passwords = Passwords;
                 _maintenance.Show();
             }
         }

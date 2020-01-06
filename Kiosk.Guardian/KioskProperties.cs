@@ -25,6 +25,8 @@ namespace Kiosk.Guardian
 
         [Browsable(false)]
         public bool Running { get; set; }
+        [Browsable(false)]
+        public string Passwords { get; set; }
 
         [DefaultValueAttribute("MultiClubes.Kiosk.UI")]
         [Category("MultiClubes")]
@@ -156,15 +158,15 @@ namespace Kiosk.Guardian
         [Description("Token de autorização do Bot")]
         public string TelegramToken { get; set; }
 
-        [Category("Configurações")]
-        [DisplayName("Buscar configurações remotamente")]
-        [Description("Busca as configurações no settings.ini em uma pasta remota")]
-        public bool RemoteCfg { get; set; }
+        //[Category("Configurações")]
+        //[DisplayName("Buscar configurações remotamente")]
+        //[Description("Busca as configurações no settings.ini em uma pasta remota")]
+        //public bool RemoteCfg { get; set; }
 
-        [Category("Configurações")]
-        [DisplayName("Caminho das configurações")]
-        [Description("O caminho do arquivo settings.ini")]
-        public string SettingsPath { get; set; }
+        //[Category("Configurações")]
+        //[DisplayName("Caminho das configurações")]
+        //[Description("O caminho do arquivo settings.ini")]
+        //public string SettingsPath { get; set; }
 
         void ValidateDirectory()
         {
@@ -261,15 +263,15 @@ namespace Kiosk.Guardian
             if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
                 , "Kiosk", "settings.ini")))
             {
-                try { RemoteCfg = Convert.ToBoolean(ini.IniReadValue("Cfg", "RemoteCfg")); } catch (Exception) { RemoteCfg = false; }
-                SettingsPath = ini.IniReadValue("Cfg", "SettingsPath");
+                //try { RemoteCfg = Convert.ToBoolean(ini.IniReadValue("Cfg", "RemoteCfg")); } catch (Exception) { RemoteCfg = false; }
+                //SettingsPath = ini.IniReadValue("Cfg", "SettingsPath");
 
-                if (RemoteCfg)
-                {
-                    ini = new IniFile(Path.Combine(SettingsPath));
-                    MaintenanceUtils.MainForm.Text += " - Configuração Remota";
-                    //MaintenanceUtils.MainPropertyGrid.SetAllReadyOnly();
-                }
+                //if (RemoteCfg)
+                //{
+                //    ini = new IniFile(Path.Combine(SettingsPath));
+                //    MaintenanceUtils.MainForm.Text += " - Configuração Remota";
+                //    //MaintenanceUtils.MainPropertyGrid.SetAllReadyOnly();
+                //}
 
                 KioskPath = ini.IniReadValue("MultiClubes", "KioskPath");
                 ProcessName = ini.IniReadValue("MultiClubes", "ProccessName");
@@ -295,6 +297,8 @@ namespace Kiosk.Guardian
                 try { NotifyTelegram = Convert.ToBoolean(ini.IniReadValue("Telegram", "NotifyTelegram")); } catch (Exception) { NotifyTelegram = false; }
                 TelegramToken = !string.IsNullOrEmpty(ini.IniReadValue("Telegram", "Token")) ? MaintenanceUtils.Decodificar(ini.IniReadValue("Telegram", "Token")) : "";
                 ChatID = ini.IniReadValue("Telegram", "ChatID");
+
+                Passwords = ini.IniReadValue("Guardian", "Passwords");
             }
             else
             {
