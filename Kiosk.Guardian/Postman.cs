@@ -21,9 +21,17 @@ namespace Kiosk.Guardian
 
         public static void SendToTelegram(string message, string chatid, string token)
         {
-            message = message + " - " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
-            TelegramBotClient client = new TelegramBotClient(token);
-            client.SendTextMessageAsync(new ChatId(chatid), message);
+            message = message + " - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            //TelegramBotClient client = new TelegramBotClient(token);
+            //client.SendTextMessageAsync(new ChatId(chatid), message);
+            TelegramSendMessage(token, chatid, message);
+        }
+
+        static string TelegramSendMessage(string apilToken, string destID, string text)
+        {
+            string urlString = "https://api.telegram.org/bot" + apilToken + "/sendMessage?chat_id=" + destID + "&text=" + text;
+            WebClient webclient = new WebClient();
+            return webclient.DownloadString(urlString);
         }
 
         public void Send(string subject, string body)

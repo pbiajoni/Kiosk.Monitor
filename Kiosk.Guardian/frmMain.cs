@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace Kiosk.Guardian
 {
@@ -189,6 +191,30 @@ namespace Kiosk.Guardian
                 {
                     Process.Start("rundll32.exe", "printui.dll, PrintUIEntry /k /n \"" + kioskProperties.PrinterName + "\"");
                 }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message, "Oops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnTestTelegram_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(kioskProperties.TelegramToken))
+                {
+                    throw new Exception("O Token não deve estar vazio");
+                }
+
+                if (string.IsNullOrEmpty(kioskProperties.ChatID))
+                {
+                    throw new Exception("O chat não deve estar vazio");
+                }
+
+                Postman.SendToTelegram("MENSAGEM DE TESTE TELEGRAM - "
+                    + Environment.MachineName.ToUpper(), kioskProperties.ChatID, kioskProperties.TelegramToken);
+                MessageBox.Show("Mensagem enviada!", "Ok!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception er)
             {

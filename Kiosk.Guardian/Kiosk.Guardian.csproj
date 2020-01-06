@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>\\srv-arquivos\aplicativos%24\KioskGuardian\</PublishUrl>
+    <PublishUrl>\\srv-arquivos\aplicativos%24\KioskGuardianHomolog\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -23,13 +23,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>\\srv-arquivos\aplicativos%24\KioskGuardian\</InstallUrl>
-    <ProductName>Kiosk Guardian</ProductName>
+    <InstallUrl>\\srv-arquivos\aplicativos%24\KioskGuardianHomolog\</InstallUrl>
+    <ProductName>Kiosk Guardian Homolog</ProductName>
     <PublisherName>Pablo Biajoni</PublisherName>
-    <SuiteName>Kiosk Guardian</SuiteName>
-    <MinimumRequiredVersion>1.0.1.45</MinimumRequiredVersion>
+    <SuiteName>Kiosk Guardian Homolog</SuiteName>
+    <MinimumRequiredVersion>1.0.1.51</MinimumRequiredVersion>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>46</ApplicationRevision>
+    <ApplicationRevision>52</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

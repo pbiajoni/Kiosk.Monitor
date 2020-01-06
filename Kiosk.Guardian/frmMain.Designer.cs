@@ -35,6 +35,14 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.btnSalvar = new System.Windows.Forms.ToolStripMenuItem();
             this.btnStart = new System.Windows.Forms.ToolStripMenuItem();
+            this.opçõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colocarEmManutençãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnStartAndMinimize = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnOpenQueuePrint = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnPrintTestPage = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.btnShow = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,14 +52,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblCountDown = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPrinterStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.opçõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colocarEmManutençãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnStartAndMinimize = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnOpenQueuePrint = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnPrintTestPage = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnTestTelegram = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -101,6 +103,65 @@
             this.btnStart.Size = new System.Drawing.Size(76, 29);
             this.btnStart.Text = "Iniciar";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // opçõesToolStripMenuItem
+            // 
+            this.opçõesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.colocarEmManutençãoToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.btnStartAndMinimize,
+            this.toolStripSeparator3,
+            this.btnTestTelegram,
+            this.toolStripSeparator5,
+            this.btnOpenQueuePrint,
+            this.toolStripSeparator4,
+            this.btnPrintTestPage});
+            this.opçõesToolStripMenuItem.Name = "opçõesToolStripMenuItem";
+            this.opçõesToolStripMenuItem.Size = new System.Drawing.Size(87, 29);
+            this.opçõesToolStripMenuItem.Text = "Opções";
+            // 
+            // colocarEmManutençãoToolStripMenuItem
+            // 
+            this.colocarEmManutençãoToolStripMenuItem.Name = "colocarEmManutençãoToolStripMenuItem";
+            this.colocarEmManutençãoToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
+            this.colocarEmManutençãoToolStripMenuItem.Text = "Colocar em manutenção";
+            this.colocarEmManutençãoToolStripMenuItem.Click += new System.EventHandler(this.btnMaintenance_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(287, 6);
+            // 
+            // btnStartAndMinimize
+            // 
+            this.btnStartAndMinimize.Name = "btnStartAndMinimize";
+            this.btnStartAndMinimize.Size = new System.Drawing.Size(290, 30);
+            this.btnStartAndMinimize.Text = "Iniciar e minimizar";
+            this.btnStartAndMinimize.Click += new System.EventHandler(this.btnStartAndMinimize_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(287, 6);
+            // 
+            // btnOpenQueuePrint
+            // 
+            this.btnOpenQueuePrint.Name = "btnOpenQueuePrint";
+            this.btnOpenQueuePrint.Size = new System.Drawing.Size(290, 30);
+            this.btnOpenQueuePrint.Text = "Abrir fila de impressão";
+            this.btnOpenQueuePrint.Click += new System.EventHandler(this.btnOpenQueuePrint_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(287, 6);
+            // 
+            // btnPrintTestPage
+            // 
+            this.btnPrintTestPage.Name = "btnPrintTestPage";
+            this.btnPrintTestPage.Size = new System.Drawing.Size(290, 30);
+            this.btnPrintTestPage.Text = "Imprimir página teste";
+            this.btnPrintTestPage.Click += new System.EventHandler(this.btnPrintTestPage_Click);
             // 
             // notifyIcon1
             // 
@@ -168,62 +229,17 @@
             this.lblPrinterStatus.Size = new System.Drawing.Size(82, 17);
             this.lblPrinterStatus.Text = "[PrinterStatus]";
             // 
-            // opçõesToolStripMenuItem
+            // btnTestTelegram
             // 
-            this.opçõesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.colocarEmManutençãoToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.btnStartAndMinimize,
-            this.toolStripSeparator3,
-            this.btnOpenQueuePrint,
-            this.toolStripSeparator4,
-            this.btnPrintTestPage});
-            this.opçõesToolStripMenuItem.Name = "opçõesToolStripMenuItem";
-            this.opçõesToolStripMenuItem.Size = new System.Drawing.Size(87, 29);
-            this.opçõesToolStripMenuItem.Text = "Opções";
+            this.btnTestTelegram.Name = "btnTestTelegram";
+            this.btnTestTelegram.Size = new System.Drawing.Size(290, 30);
+            this.btnTestTelegram.Text = "Testar notificar Telegram";
+            this.btnTestTelegram.Click += new System.EventHandler(this.btnTestTelegram_Click);
             // 
-            // colocarEmManutençãoToolStripMenuItem
+            // toolStripSeparator5
             // 
-            this.colocarEmManutençãoToolStripMenuItem.Name = "colocarEmManutençãoToolStripMenuItem";
-            this.colocarEmManutençãoToolStripMenuItem.Size = new System.Drawing.Size(290, 30);
-            this.colocarEmManutençãoToolStripMenuItem.Text = "Colocar em manutenção";
-            this.colocarEmManutençãoToolStripMenuItem.Click += new System.EventHandler(this.btnMaintenance_Click);
-            // 
-            // btnStartAndMinimize
-            // 
-            this.btnStartAndMinimize.Name = "btnStartAndMinimize";
-            this.btnStartAndMinimize.Size = new System.Drawing.Size(290, 30);
-            this.btnStartAndMinimize.Text = "Iniciar e minimizar";
-            this.btnStartAndMinimize.Click += new System.EventHandler(this.btnStartAndMinimize_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(287, 6);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(287, 6);
-            // 
-            // btnOpenQueuePrint
-            // 
-            this.btnOpenQueuePrint.Name = "btnOpenQueuePrint";
-            this.btnOpenQueuePrint.Size = new System.Drawing.Size(290, 30);
-            this.btnOpenQueuePrint.Text = "Abrir fila de impressão";
-            this.btnOpenQueuePrint.Click += new System.EventHandler(this.btnOpenQueuePrint_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(287, 6);
-            // 
-            // btnPrintTestPage
-            // 
-            this.btnPrintTestPage.Name = "btnPrintTestPage";
-            this.btnPrintTestPage.Size = new System.Drawing.Size(290, 30);
-            this.btnPrintTestPage.Text = "Imprimir página teste";
-            this.btnPrintTestPage.Click += new System.EventHandler(this.btnPrintTestPage_Click);
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(287, 6);
             // 
             // frmMain
             // 
@@ -276,6 +292,8 @@
         private System.Windows.Forms.ToolStripMenuItem btnOpenQueuePrint;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem btnPrintTestPage;
+        private System.Windows.Forms.ToolStripMenuItem btnTestTelegram;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

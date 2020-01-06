@@ -62,10 +62,16 @@ namespace Kiosk.Guardian
                 postman.ToMail = _kioskProperties.ToMail;
             }
 
+
+
             if (_kioskProperties.CheckOnStartup)
             {
                 PrinterCheckStart();
                 TestKiosk();
+            }
+            else
+            {
+                PrinterCheckStart();
             }
         }
 
@@ -205,7 +211,13 @@ namespace Kiosk.Guardian
                         printerAlertSended = true;
                         _IsPaused = true;
                         KillKiosk();
-                        //KillJobs(printQueue);
+
+                        if (_kioskProperties.NotifyTelegram)
+                        {
+                            Postman.SendToTelegram(Environment.MachineName.ToUpper() + " -> ERRO IMPRESSORA = " + statusDescription,
+                            _kioskProperties.ChatID, _kioskProperties.TelegramToken);
+                        }
+
                         MaintenanceUtils.PutOnMaintenance();
                     }
 
@@ -214,6 +226,12 @@ namespace Kiosk.Guardian
                         _IsPaused = false;
                         TestKiosk();
                         MaintenanceUtils.CloseMaintenance();
+
+                        if (_kioskProperties.NotifyTelegram)
+                        {
+                            Postman.SendToTelegram(Environment.MachineName.ToUpper() + " -> ERRO DE IMPRESSORA RESOLVIDO!",
+                            _kioskProperties.ChatID, _kioskProperties.TelegramToken);
+                        }
                     }
 
                     OnPrintCheck(statusDescription, causesError);

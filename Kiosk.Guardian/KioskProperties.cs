@@ -156,7 +156,6 @@ namespace Kiosk.Guardian
         [Description("Token de autorização do Bot")]
         public string TelegramToken { get; set; }
 
-        [RefreshProperties(RefreshProperties.All)]
         [Category("Configurações")]
         [DisplayName("Buscar configurações remotamente")]
         [Description("Busca as configurações no settings.ini em uma pasta remota")]
