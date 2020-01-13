@@ -29,6 +29,8 @@ namespace Kiosk.Guardian
         {
             lblErrorMessages.Visible = false;
             this.TopMost = true;
+
+            lblAlert.Text = "VERIFICAR IMPRESSORA";
         }
 
         private void btnTurnOff_Click(object sender, EventArgs e)
