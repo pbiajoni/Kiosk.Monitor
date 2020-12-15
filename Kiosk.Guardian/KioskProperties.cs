@@ -14,13 +14,20 @@ namespace Kiosk.Guardian
     public class KioskProperties
     {
         IniFile ini;
+        IniFile iniRemote;
         private string _proccessName;
         private string _pathToServer;
+        Timer timer = new Timer();
 
         public KioskProperties()
         {
             ini = new IniFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
-                , "Kiosk", "settings.ini"));
+                , "Kiosk", "settings.ini"));            
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            
         }
 
         [Browsable(false)]
@@ -105,6 +112,12 @@ namespace Kiosk.Guardian
         [DisplayName("Nome da impressora")]
         [Description("Nome da impressora de cupom configurada no kiosk")]
         public string PrinterName { get; set; }
+
+        //[Category("Ferramentas")]
+        //[DisplayName("Em manutenção")]
+        //[Description("Define se o Kiosk Guardian está em estado de manutenção")]
+        //[ReadOnly(true)]
+        //public bool MaintenanceMode { get; set; }
 
         [Category("Log")]
         [DisplayName("Alertar por email")]
@@ -260,19 +273,12 @@ namespace Kiosk.Guardian
 
         public void Get()
         {
+            bool RemoteCfg = false;
+            string SettingsPath = "";
+
             if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
                 , "Kiosk", "settings.ini")))
             {
-                //try { RemoteCfg = Convert.ToBoolean(ini.IniReadValue("Cfg", "RemoteCfg")); } catch (Exception) { RemoteCfg = false; }
-                //SettingsPath = ini.IniReadValue("Cfg", "SettingsPath");
-
-                //if (RemoteCfg)
-                //{
-                //    ini = new IniFile(Path.Combine(SettingsPath));
-                //    MaintenanceUtils.MainForm.Text += " - Configuração Remota";
-                //    //MaintenanceUtils.MainPropertyGrid.SetAllReadyOnly();
-                //}
-
                 KioskPath = ini.IniReadValue("MultiClubes", "KioskPath");
                 ProcessName = ini.IniReadValue("MultiClubes", "ProccessName");
 
@@ -299,6 +305,7 @@ namespace Kiosk.Guardian
                 ChatID = ini.IniReadValue("Telegram", "ChatID");
 
                 Passwords = ini.IniReadValue("Guardian", "Passwords");
+                MaintenanceUtils.Passwords = Passwords;
             }
             else
             {

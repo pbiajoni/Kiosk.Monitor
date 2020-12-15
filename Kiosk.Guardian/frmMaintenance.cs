@@ -14,6 +14,7 @@ namespace Kiosk.Guardian
     public partial class frmMaintenance : Form
     {
         public string Passwords { get; set; }
+        public string Message { get; set; }
         public frmMaintenance()
         {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace Kiosk.Guardian
 
         private void FrmMaintenance_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+
         }
 
         private void frmMaintenance_Load(object sender, EventArgs e)
@@ -30,12 +31,19 @@ namespace Kiosk.Guardian
             lblErrorMessages.Visible = false;
             this.TopMost = true;
 
-            lblAlert.Text = "VERIFICAR IMPRESSORA";
+            if (string.IsNullOrEmpty(this.Message))
+            {
+                lblAlert.Text = "VERIFICAR IMPRESSORA";
+            }
+            else
+            {
+                lblAlert.Text = this.Message;
+            }
         }
 
         private void btnTurnOff_Click(object sender, EventArgs e)
         {
-            if(txtPassword.Text == "")
+            if (txtPassword.Text == "")
             {
                 lblErrorMessages.Text = "É NECESSÁRIO DIGITAR UMA SENHA";
                 lblErrorMessages.Visible = true;
@@ -44,7 +52,7 @@ namespace Kiosk.Guardian
             {
                 //btnUnlock.PerformClick();
                 Process.Start("shutdown.exe", "-s -t 10");
-            }            
+            }
         }
 
         void SetNumber(string number)
@@ -111,7 +119,7 @@ namespace Kiosk.Guardian
 
         private void btnUnlock_Click(object sender, EventArgs e)
         {
-            if(Auth())
+            if (Auth())
             {
                 MaintenanceUtils.CloseMaintenance(true);
             }
@@ -124,12 +132,15 @@ namespace Kiosk.Guardian
 
         bool Auth()
         {
+            Console.WriteLine("Senha digitada é " + txtPassword.Text.Trim() + " e as senhas atuais são " + Passwords);
             if (string.IsNullOrEmpty(Passwords))
             {
                 return false;
             }
             else
             {
+
+
                 if (txtPassword.Text.Contains(Passwords))
                 {
                     return true;

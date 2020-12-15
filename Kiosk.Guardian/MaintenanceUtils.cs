@@ -20,13 +20,15 @@ namespace Kiosk.Guardian
         {
             TypeDescriptor.AddAttributes(MainPropertyGrid.SelectedObject, new Attribute[] { new ReadOnlyAttribute(true) });
         }
-        public static void PutOnMaintenance()
+        public static void PutOnMaintenance(string message = "")
         {
             if (_maintenance == null)
             {
                 _maintenance = new frmMaintenance();
                 _maintenance.ShowInTaskbar = false;
                 _maintenance.Passwords = Passwords;
+                _maintenance.Message = message;
+                Console.WriteLine("Entrando em modo manutenção");
                 _maintenance.Show();
             }
         }
@@ -37,7 +39,7 @@ namespace Kiosk.Guardian
             {
                 _maintenance.Close();
                 _maintenance = null;
-
+                Console.WriteLine("Saindo do modo de manutenção");
                 if (showMonitor)
                 {
                     MainForm.WindowState = FormWindowState.Normal;
@@ -54,6 +56,7 @@ namespace Kiosk.Guardian
             {
                 if (entrada.Trim() != "")
                 {
+                    Console.WriteLine(entrada);
                     string myKey = "39204391000100";  //Aqui vc inclui uma chave qualquer para servir de base para cifrar, que deve ser a mesma no método Decodificar
                     tripledescryptoserviceprovider.Key = md5cryptoserviceprovider.ComputeHash(ASCIIEncoding.ASCII.GetBytes(myKey));
                     tripledescryptoserviceprovider.Mode = CipherMode.ECB;

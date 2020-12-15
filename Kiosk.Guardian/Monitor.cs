@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iniSettings;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Kiosk.Guardian
         public event OnPrintCheckEventHandler OnPrintCheck;
         public delegate void OnStopEventHandler(int origin);
         public event OnStopEventHandler OnStop;
+        IniFile iniRemote;
         public Monitor()
         {
 
@@ -39,6 +41,17 @@ namespace Kiosk.Guardian
                 return _IsRunning;
             }
         }
+
+        public bool MaintenanceMode
+        {
+            get
+            {
+                string remote = @"\\srv-mc-rj\utilitarios$\KioskMonitor\settings.ini";
+                iniRemote = new IniFile(remote);
+                return iniRemote.IniReadValue("Remote", "maintenance") == "1" ? true : false;
+            }
+        }
+
         public void Run(KioskProperties properties)
         {
             _kioskProperties = properties;
@@ -193,6 +206,14 @@ namespace Kiosk.Guardian
                         statusDescription = "IMPRESSORA DISPONÍVEL";
                         printerAlertSended = false;
                     }
+
+                    Console.WriteLine("Status da impressora é " + status.ToString());
+                    //if (status == PrintQueueStatus.pap)
+                    //{
+                    //    statusDescription = "IMPRESSORA DISPONÍVEL";
+                    //    printerAlertSended = false;
+                    //}
+
 
                     statusDescription += "(" + status.ToString().ToUpper() + ")";
                 }
@@ -353,7 +374,25 @@ namespace Kiosk.Guardian
                         if (_seconds == _kioskProperties.Interval)
                         {
                             _seconds = 0;
-                            TestKiosk();
+
+                            if (MaintenanceMode)
+                            {
+                                if (MaintenanceUtils._maintenance is null)
+                                {
+                                    KillKiosk();
+                                    MaintenanceUtils.PutOnMaintenance("MANUTENÇÃO TÉCNICA");
+                                }
+                            }
+
+                            if (!MaintenanceMode)
+                            {
+                                if (!(MaintenanceUtils._maintenance is null))
+                                {
+                                    MaintenanceUtils.CloseMaintenance();
+                                }
+
+                                TestKiosk();
+                            }
                         }
                         else
                         {

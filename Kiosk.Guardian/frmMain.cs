@@ -26,6 +26,11 @@ namespace Kiosk.Guardian
             monitor.OnPrintCheck += Monitor_OnPrintCheck;
         }
 
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            
+        }
+
         private void Monitor_OnPrintCheck(string description, bool causesError)
         {
             lblPrinterStatus.Text = " - " + description;
@@ -158,10 +163,10 @@ namespace Kiosk.Guardian
             if (kioskProperties.Running)
             {
                 btnStart.PerformClick();
-                monitor.Stop();                
+                monitor.Stop();
             }
 
-            MaintenanceUtils.PutOnMaintenance();
+            MaintenanceUtils.PutOnMaintenance("EM MANUTENÇÃO TÉCNICA");
         }
 
         private void btnOpenQueuePrint_Click(object sender, EventArgs e)
