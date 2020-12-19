@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Printing;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +18,7 @@ namespace Kiosk.Guardian
         Postman postman = null;
         bool _firstRun = true;
         bool _isTurningOff = false;
+        bool _videosCopied = false;
         Timer _timer;
         Timer _timerPrinter;
         int _seconds;
@@ -83,6 +86,58 @@ namespace Kiosk.Guardian
             else
             {
                 PrinterCheckStart();
+            }
+        }
+
+        public void TryCopyVideos()
+        {
+            try
+            {
+                string videosPath = @"\\srv-mc-rj\utilitarios$\KioskMonitor\Videos\Videosoft";
+
+                Process kiosk = GetKioskProcess();
+
+                if (kiosk != null)
+                {
+                    string kioskVideosPath = kiosk.MainModule.FileName;
+                    kioskVideosPath = Path.GetDirectoryName(kioskVideosPath) + "\\Videos\\Videosoft";
+                    foreach (string fileTarget in Directory.GetFiles(kioskVideosPath))
+                    {
+                        foreach (string fileSource in Directory.GetFiles(videosPath))
+                        {
+                            if (Path.GetFileName(fileTarget) == Path.GetFileName(fileSource))
+                            {
+                                string hashSource = GetMD5HashFromFile(fileSource);
+                                string hashTarget = GetMD5HashFromFile(fileTarget);
+
+                                if (hashSource != hashTarget)
+                                {
+                                    Console.WriteLine("Copiando video " + Path.GetFileName(fileSource));
+                                    File.Copy(fileSource, fileTarget, true);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Não foi necessário copiar video " + Path.GetFileName(fileSource));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception er)
+            {
+                Console.WriteLine("Não foi possível copiar os vídeos: " + er.ToString());
+            }
+        }
+
+        public string checkMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    return Encoding.Default.GetString(md5.ComputeHash(stream));
+                }
             }
         }
 
@@ -301,6 +356,21 @@ namespace Kiosk.Guardian
             }
         }
 
+        Process GetKioskProcess()
+        {
+            Process[] processlist = Process.GetProcesses();
+
+            foreach (Process process in processlist)
+            {
+                if (process.ProcessName.ToLower() == _kioskProperties.ProcessName.ToLower())
+                {
+                    return process;
+                }
+            }
+
+            return null;
+        }
+
         KioskStatus KioskIsRunning()
         {
             Process[] processlist = Process.GetProcesses();
@@ -324,6 +394,16 @@ namespace Kiosk.Guardian
             return KioskStatus.Off;
         }
 
+        public string GetMD5HashFromFile(string fileName)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(fileName))
+                {
+                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
+                }
+            }
+        }
 
         void TestKiosk()
         {
@@ -343,6 +423,11 @@ namespace Kiosk.Guardian
                     MaintenanceUtils.MainForm.WindowState = FormWindowState.Minimized;
                     SendAlert("EVENTO", "O APLICATIVO FECHOU E FOI ABERTO NOVAMENTE");
                     Process.Start(_kioskProperties.KioskPath);
+                }
+
+                if (kioskStatus == KioskStatus.Alive && !_isTurningOff)
+                {
+                    TryCopyVideos();
                 }
 
                 _firstRun = false;

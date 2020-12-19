@@ -66,7 +66,7 @@ namespace Kiosk.Guardian
             {
                 if (string.IsNullOrEmpty(_pathToServer))
                 {
-                    return @"\\srv-multiclubes\multiclubessistemas$\Kiosk\MultiClubes.Kiosk.UI.application";
+                    return @"\\srv-mc-rj\multiclubessistemas$\Kiosk\MultiClubes.Kiosk.UI.application";
                 }
 
                 return _pathToServer;
@@ -114,10 +114,9 @@ namespace Kiosk.Guardian
         public string PrinterName { get; set; }
 
         //[Category("Ferramentas")]
-        //[DisplayName("Em manutenção")]
-        //[Description("Define se o Kiosk Guardian está em estado de manutenção")]
-        //[ReadOnly(true)]
-        //public bool MaintenanceMode { get; set; }
+        //[DisplayName("Fechar Processos")]
+        //[Description("Fecha os processos que estão na lista ex:Processo01.exe,Processo02.exe")]
+        //public string CloseProccess { get; set; }
 
         [Category("Log")]
         [DisplayName("Alertar por email")]
