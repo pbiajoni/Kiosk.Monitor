@@ -56,7 +56,7 @@
             // btnTurnOff
             // 
             this.btnTurnOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTurnOff.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            this.btnTurnOff.BackColor = System.Drawing.Color.Transparent;
             this.btnTurnOff.FlatAppearance.BorderSize = 0;
             this.btnTurnOff.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTurnOff.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -72,6 +72,7 @@
             // groupBox2
             // 
             this.groupBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.Controls.Add(this.chkHide);
             this.groupBox2.Controls.Add(this.txtPassword);
             this.groupBox2.Controls.Add(this.panel1);
@@ -260,6 +261,7 @@
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Lucida Bright", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(94, 188);
@@ -300,6 +302,7 @@
             // lblAlert
             // 
             this.lblAlert.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblAlert.BackColor = System.Drawing.Color.Transparent;
             this.lblAlert.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAlert.ForeColor = System.Drawing.Color.Yellow;
             this.lblAlert.Location = new System.Drawing.Point(104, 388);
@@ -313,7 +316,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImage = global::Kiosk.Guardian.Properties.Resources.Padrão;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1026, 618);
             this.Controls.Add(this.lblAlert);
             this.Controls.Add(this.lblErrorMessages);

@@ -113,10 +113,15 @@ namespace Kiosk.Guardian
         [Description("Nome da impressora de cupom configurada no kiosk")]
         public string PrinterName { get; set; }
 
-        //[Category("Ferramentas")]
-        //[DisplayName("Fechar Processos")]
-        //[Description("Fecha os processos que estão na lista ex:Processo01.exe,Processo02.exe")]
-        //public string CloseProccess { get; set; }
+        //[Category("Vídeos")]
+        //[DisplayName("Caminho de Vídeos")]
+        //[Description("Caminho para osm vídeos de exemplos")]
+        //public string VideosPath { get; set; }
+
+        //[Category("Vídeos")]
+        //[DisplayName("Copiar vídeos")]
+        //[Description("Executa a cópia dos vídeos para os ATMs")]
+        //public bool CopyVideos { get; set; }
 
         [Category("Log")]
         [DisplayName("Alertar por email")]
@@ -267,6 +272,9 @@ namespace Kiosk.Guardian
             ini.IniWriteValue("Telegram", "ChatID", ChatID);
             ini.IniWriteValue("Telegram", "NotifyTelegram", NotifyTelegram.ToString());
             ini.IniWriteValue("Telegram", "Token", !string.IsNullOrEmpty(TelegramToken) ? MaintenanceUtils.Codificar(TelegramToken) : "");
+
+            //ini.IniWriteValue("Videos", "CopyVideos", this.CopyVideos.ToString());
+            //ini.IniWriteValue("Videos", "VideosPath", this.VideosPath);
 
         }
 

@@ -27,7 +27,7 @@
     <ProductName>Kiosk Guardian</ProductName>
     <PublisherName>Pablo Biajoni</PublisherName>
     <SuiteName>Kiosk Guardian</SuiteName>
-    <MinimumRequiredVersion>1.0.1.63</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.0.1.64</MinimumRequiredVersion>
     <WebPage>publish.htm</WebPage>
     <TrustUrlParameters>true</TrustUrlParameters>
     <ApplicationRevision>64</ApplicationRevision>
@@ -158,6 +158,7 @@
   <ItemGroup>
     <Content Include="atm.ico" />
     <Content Include="guard.ico" />
+    <None Include="Resources\Padrão.bmp" />
     <None Include="Resources\atm.png" />
   </ItemGroup>
   <ItemGroup>
